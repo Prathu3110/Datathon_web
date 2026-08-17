@@ -1,0 +1,86 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { motion, useMotionValue, useSpring } from "framer-motion"
+
+type CursorMode = "default" | "view" | "expand"
+
+export function CustomCursor() {
+  const [enabled, setEnabled] = useState(false)
+  const [mode, setMode] = useState<CursorMode>("default")
+  const [visible, setVisible] = useState(false)
+
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const springX = useSpring(x, { damping: 30, stiffness: 400, mass: 0.4 })
+  const springY = useSpring(y, { damping: 30, stiffness: 400, mass: 0.4 })
+
+  useEffect(() => {
+    const isFinePointer = window.matchMedia("(pointer: fine)").matches
+    const isTouch = "ontouchstart" in window
+    if (!isFinePointer || isTouch) return
+
+    setEnabled(true)
+    document.documentElement.classList.add("custom-cursor-active")
+
+    const onMove = (e: MouseEvent) => {
+      x.set(e.clientX)
+      y.set(e.clientY)
+      if (!visible) setVisible(true)
+
+      const target = e.target as HTMLElement | null
+      const viewTarget = target?.closest<HTMLElement>('[data-cursor="view"]')
+      const expandTarget = target?.closest<HTMLElement>('[data-cursor="expand"]')
+
+      if (viewTarget) setMode("view")
+      else if (expandTarget) setMode("expand")
+      else setMode("default")
+    }
+
+    const onLeave = () => setVisible(false)
+    const onEnter = () => setVisible(true)
+
+    window.addEventListener("mousemove", onMove, { passive: true })
+    document.addEventListener("mouseleave", onLeave)
+    document.addEventListener("mouseenter", onEnter)
+
+    return () => {
+      document.documentElement.classList.remove("custom-cursor-active")
+      window.removeEventListener("mousemove", onMove)
+      document.removeEventListener("mouseleave", onLeave)
+      document.removeEventListener("mouseenter", onEnter)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (!enabled) return null
+
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none fixed left-0 top-0 z-[200] mix-blend-difference"
+      style={{ x: springX, y: springY, opacity: visible ? 1 : 0, transition: "opacity 0.2s" }}
+    >
+      <motion.div
+        animate={{
+          width: mode === "view" ? 56 : mode === "expand" ? 40 : 10,
+          height: mode === "view" ? 56 : mode === "expand" ? 40 : 10,
+          x: mode === "view" ? -28 : mode === "expand" ? -20 : -5,
+          y: mode === "view" ? -28 : mode === "expand" ? -20 : -5,
+        }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+        className="flex items-center justify-center rounded-full border border-[#f4f1ea] bg-[#f4f1ea]"
+      >
+        {mode === "view" && (
+          <motion.span
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-[9px] font-bold uppercase tracking-[0.1em] text-background"
+          >
+            View ↗
+          </motion.span>
+        )}
+      </motion.div>
+    </motion.div>
+  )
+}
