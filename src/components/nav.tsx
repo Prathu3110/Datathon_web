@@ -45,9 +45,13 @@ export function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors hover:text-ink"
+              className="group relative text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors duration-500 hover:text-ink"
             >
               {link.label}
+              <span
+                className="pointer-events-none absolute -bottom-1 left-0 h-[1px] w-full origin-left scale-x-0 bg-accent-green transition-transform duration-500 ease-out group-hover:scale-x-100"
+                aria-hidden
+              />
             </a>
           ))}
         </nav>

@@ -17,11 +17,13 @@ export function Hero() {
 
   const handleTitleClick = () => {
     setIsFlashing(true)
-    window.setTimeout(() => setIsFlashing(false), 500)
+    window.setTimeout(() => setIsFlashing(false), 700)
   }
 
   return (
     <section id="top" className="relative overflow-x-clip pt-32 pb-20 md:pt-44 md:pb-28">
+      <div className="hero-aura" aria-hidden />
+
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="flex flex-col items-start gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted md:flex-row md:items-center md:gap-4">
           <span>Inter-Department Hackathon</span>
@@ -39,7 +41,7 @@ export function Hero() {
               key={line}
               initial={{ y: "0.6em", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.7, delay: lines.indexOf(line) * 0.09, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.15, delay: lines.indexOf(line) * 0.16, ease: [0.16, 1, 0.3, 1] }}
               className={`chrome-text text-[12vw] font-black tracking-tight sm:text-[13vw] md:text-[12vw] ${isFlashing ? "chrome-flash" : ""}`}
             >
               {line}
