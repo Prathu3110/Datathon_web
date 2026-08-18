@@ -10,11 +10,13 @@ import { SectionInterstitial } from "@/components/section-interstitial"
 import { ChallengeSection } from "@/components/challenge-section"
 import { ChallengeDetail } from "@/components/challenge-detail"
 import { OpenChallenge } from "@/components/open-challenge"
+import { Gallery } from "@/components/gallery"
+import { Register } from "@/components/register"
 import { SiteFooter } from "@/components/site-footer"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { CustomCursor } from "@/components/custom-cursor"
 import { BackgroundWaves } from "@/components/background-waves"
-import { bdaChallenges, roboticsChallenges } from "@/lib/challenges"
+import { bdaChallenges, roboticsChallenges, pad2 } from "@/lib/challenges"
 
 export default function Page() {
   const [activeChallenge, setActiveChallenge] = useState<string | null>(null)
@@ -38,7 +40,7 @@ export default function Page() {
               &amp; Cloud Computing
             </>
           }
-          count="08 Challenges"
+          count={`${pad2(bdaChallenges.length)} Challenges`}
         />
 
         {bdaChallenges.map((challenge, index) => (
@@ -69,7 +71,7 @@ export default function Page() {
               Human-Robot Interaction
             </>
           }
-          count="03 Challenges"
+          count={`${pad2(roboticsChallenges.length)} Challenges`}
         />
 
         {roboticsChallenges.map((challenge, index) => (
@@ -82,6 +84,8 @@ export default function Page() {
         ))}
 
         <OpenChallenge />
+        <Gallery />
+        <Register />
         <SiteFooter />
 
         <ChallengeDetail challengeId={activeChallenge} onClose={() => setActiveChallenge(null)} />

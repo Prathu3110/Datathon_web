@@ -2,13 +2,18 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { LogoStrip } from "./logo-strip"
+import { totalCount, openCount, pad2 } from "@/lib/challenges"
 
 export function SiteFooter() {
   const [pinged, setPinged] = useState(false)
+  const officialCount = totalCount - openCount
 
   return (
-    <footer id="about" className="border-t-2 border-ink py-14 md:py-20">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+    <footer id="about" className="border-t-2 border-ink">
+      <LogoStrip />
+
+      <div className="mx-auto max-w-[1400px] px-6 py-14 md:px-10 md:py-20">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="font-display text-2xl font-black uppercase tracking-tight text-ink">
@@ -20,7 +25,7 @@ export function SiteFooter() {
               BDA &amp; CC × Robotics
             </p>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-muted">
-              Eleven problem statements. Countless ways to solve them.
+              {totalCount} problem statements. Countless ways to solve them.
             </p>
           </div>
 
@@ -40,9 +45,9 @@ export function SiteFooter() {
                 Format
               </p>
               <p className="mt-3 leading-relaxed text-ink">
-                11 Problem Statements
+                {officialCount} Problem Statements
                 <br />
-                1 Open Challenge
+                {openCount} Open Challenge
               </p>
             </div>
           </div>
@@ -66,7 +71,7 @@ export function SiteFooter() {
               className="inline-block h-1.5 w-1.5 rounded-full bg-accent-green"
               aria-hidden
             />
-            System Online · Challenges Loaded 11 / 11
+            System Online · Challenges Loaded {pad2(totalCount)} / {pad2(totalCount)}
           </button>
 
           <p>Build something the data didn&apos;t see coming.</p>

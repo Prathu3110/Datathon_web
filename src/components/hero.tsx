@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { HeroRobotIllustration } from "./illustrations"
+import { totalCount, openCount, pad2 } from "@/lib/challenges"
 
 const lines = ["DATATHON", "2K26"]
 
@@ -39,6 +40,7 @@ export function Hero() {
           {lines.map((line) => (
             <motion.span
               key={line}
+              data-text={line}
               initial={{ y: "0.6em", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1.15, delay: lines.indexOf(line) * 0.16, ease: [0.16, 1, 0.3, 1] }}
@@ -57,7 +59,9 @@ export function Hero() {
             className="max-w-md"
           >
             <p className="text-balance text-lg leading-relaxed text-ink-muted">
-              Twelve problem statements. Two disciplines. Eleven official challenges — plus one open canvas for whatever you dare to build.
+              {totalCount} problem statements. Two disciplines.{" "}
+              {totalCount - openCount} official challenges — plus one open canvas for whatever
+              you dare to build.
             </p>
             <button
               type="button"
@@ -87,12 +91,12 @@ export function Hero() {
                       transition={{ duration: 0.2 }}
                       className="block"
                     >
-                      12
+                      {pad2(totalCount)}
                     </motion.span>
                   )}
                 </AnimatePresence>
               </span>
-              <span className="text-[11px] font-semibold uppercase leading-tight tracking-[0.14em] text-ink-muted" aria-label="12 problem statements">
+              <span className="text-[11px] font-semibold uppercase leading-tight tracking-[0.14em] text-ink-muted" aria-label={`${totalCount} problem statements`}>
                 {revealed ? (
                   <>
                     Excuses

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { challenges, accentColorMap } from "@/lib/challenges"
+import { challenges, accentColorMap, pad2 } from "@/lib/challenges"
 import { illustrationMap } from "./illustrations"
 
 interface ChallengeDetailProps {
@@ -67,7 +67,7 @@ export function ChallengeDetail({ challengeId, onClose }: ChallengeDetailProps) 
             </button>
 
             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-muted">
-              Challenge {challenge.number} / {String(challenges.length).padStart(2, "0")} — {challenge.track}
+              Challenge {challenge.number} / {pad2(challenges.length)} — {challenge.track}
             </p>
 
             <motion.span

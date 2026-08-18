@@ -111,21 +111,55 @@
     cursor: pointer;
     transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     display: block;
+    position: relative;
+    width: fit-content; /* box hugs the word, so hover targets the text itself */
     will-change: background-position;
   }
 
-  /* Hover lifts the sheen and warms the glow — a gentle step up from 14s,
+  /* Glyph-shaped glow.
+     `filter: drop-shadow()` CANNOT be used for this: on an element using
+     background-clip:text, Chrome derives the shadow from the element's *box*
+     alpha rather than the glyph-clipped alpha, so it paints a rectangle.
+     A blurred duplicate of the same text sitting behind hugs every character
+     and counter exactly, and inherits the font metrics automatically. */
+  .chrome-text::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    -webkit-text-fill-color: var(--ink);
+    color: var(--ink);
+    filter: blur(22px);
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  /* Hover lifts the sheen and blooms the glow — a gentle step up from 14s,
      not a strobe. */
   .chrome-text:hover {
-    filter: brightness(1.16) drop-shadow(0 0 34px rgba(228, 255, 244, 0.42));
+    filter: brightness(1.16);
     animation-duration: 9s;
+  }
+
+  .chrome-text:hover::before {
+    opacity: 0.5;
   }
 
   /* Click: snap bright in 0.18s, then decay back out over the base 0.7s ease. */
   .chrome-flash {
-    filter: brightness(2.1) drop-shadow(0 0 60px rgba(255, 255, 255, 0.9)) !important;
+    filter: brightness(2.1) !important;
     transition: filter 0.18s ease-out !important;
     animation-duration: 3s !important;
+  }
+
+  .chrome-flash::before {
+    opacity: 0.9 !important;
+    filter: blur(34px) !important;
+    transition:
+      opacity 0.18s ease-out,
+      filter 0.18s ease-out !important;
   }
 
   @keyframes chrome-shimmer {

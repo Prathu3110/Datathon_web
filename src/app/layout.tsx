@@ -18,7 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Datathon 2K26 — Inter-Department Hackathon',
   description:
-    'Datathon 2K26 is an inter-department hackathon spanning BDA & Cloud Computing and Robotics — 11 official problem statements, one open canvas.',
+    'Datathon 2K26 is an inter-department hackathon spanning BDA & Cloud Computing and Robotics — 7 official problem statements, one open canvas.',
   generator: 'v0.app',
   icons: {
     icon: [

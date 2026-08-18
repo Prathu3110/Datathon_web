@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { challenges, accentColorMap } from "@/lib/challenges"
+import { challenges, accentColorMap, bdaCount, roboticsCount, openCount, pad2 } from "@/lib/challenges"
 import { illustrationMap } from "./illustrations"
 
 export function ChallengeIndex() {
@@ -12,7 +12,8 @@ export function ChallengeIndex() {
     <section id="challenges" className="border-t border-line py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-muted">
-          Datathon 2K26 System · Challenges Loaded 12 / 12
+          Datathon 2K26 System · Challenges Loaded {pad2(challenges.length)} /{" "}
+          {pad2(challenges.length)}
         </div>
 
         <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -20,7 +21,8 @@ export function ChallengeIndex() {
             Challenge Index
           </h2>
           <p className="max-w-xs text-sm leading-relaxed text-ink-muted md:text-right">
-            Eight BDA &amp; Cloud Computing tracks. Three Robotics tracks. One open canvas.
+            {bdaCount} BDA &amp; Cloud Computing tracks. {roboticsCount} Robotics tracks.{" "}
+            {openCount} open canvas.
           </p>
         </div>
 
@@ -44,7 +46,7 @@ export function ChallengeIndex() {
                   style={{ transform: isHovered ? "translateX(10px)" : "translateX(0)" }}
                 >
                   <span className="absolute left-0 top-1 hidden text-[9px] font-semibold uppercase tracking-[0.16em] text-ink-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block">
-                    Challenge {challenge.number} / {String(challenges.length).padStart(2, "0")}
+                    Challenge {challenge.number} / {pad2(challenges.length)}
                   </span>
 
                   <motion.span

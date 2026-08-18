@@ -8,7 +8,7 @@
 
 **Datathon 2K26** is a single-page hackathon showcase website for the inter-department competition hosted by the Department of Computer Science & Engineering (BDA & CC) at SRM Institute of Science & Technology, Ramapuram.
 
-- **12 problem statements** across two tracks: *BDA & Cloud Computing* (8 challenges) and *Robotics* (3 challenges), plus 1 open challenge.
+- **8 problem statements** across two tracks: *BDA & Cloud Computing* (4 challenges) and *Robotics* (3 challenges), plus 1 open challenge.
 - Built as a **Next.js 16** app with React 19, Tailwind CSS v4, Framer Motion, and shadcn/ui.
 
 ---
@@ -42,11 +42,15 @@ src/
 │   ├── challenge-detail.tsx   # Modal/drawer for expanded challenge view
 │   ├── challenge-index.tsx    # Scrollable index list of all 12 challenges
 │   ├── challenge-section.tsx  # Individual challenge card/section
+│   ├── college-logo.tsx       # Header college-logo slot (set COLLEGE_LOGO_SRC)
 │   ├── custom-cursor.tsx      # Custom cursor (fine-pointer devices only)
+│   ├── gallery.tsx            # Gallery grid (#gallery) — set `src` per item
 │   ├── hero.tsx               # Hero section — chrome animated DATATHON/2K26 title
 │   ├── illustrations.tsx      # All SVG illustrations (inline, typed)
+│   ├── logo-strip.tsx         # Footer partner/sponsor logo band
 │   ├── nav.tsx                # Top navigation
-│   ├── open-challenge.tsx     # Open challenge (#12) section
+│   ├── open-challenge.tsx     # Open challenge (last-numbered) section
+│   ├── register.tsx           # Register CTA (#register) — set REGISTRATION_URL
 │   ├── scroll-progress.tsx    # Scroll progress indicator
 │   ├── section-divider.tsx    # Large typographic dividers between tracks
 │   ├── section-interstitial.tsx # Visual break between BDA and Robotics tracks
@@ -128,20 +132,18 @@ export const accentColorMap: Record<AccentColor, { text: string; bg: string; bor
 
 ### Challenge Accent Assignments
 
-| # | Challenge | Accent |
-|---|---|---|
-| 01 | Enterprise Knowledge Discovery | `red` (neon purple) |
-| 02 | API Change Impact Analysis | `blue` (neon cyan) |
-| 03 | Software Release Readiness | `green` (neon green) |
-| 04 | Intelligent Procurement Analytics | `yellow` (electric yellow) |
-| 05 | Cybersecurity Threat Investigation | `red` (neon purple) |
-| 06 | Sustainable Cloud Computing | `green` (neon green) |
-| 07 | Supply Chain Risk Intelligence | `blue` (neon cyan) |
-| 08 | Digital Product Feedback Intelligence | `yellow` (electric yellow) |
-| 09 | Selective Pesticide Spraying | `green` (neon green) |
-| 10 | Pipe Inspection with Defect Localization | `blue` (neon cyan) |
-| 11 | Autonomous Retrieval of Dropped Objects | `red` (neon purple) |
-| 12 | Open Challenge | `yellow` (electric yellow) |
+| # | Challenge | Track | Accent |
+|---|---|---|---|
+| 01 | Software Release Readiness | BDA & CC | `red` (neon purple) |
+| 02 | Sustainable Cloud Computing | BDA & CC | `green` (neon green) |
+| 03 | Supply Chain Risk Intelligence | BDA & CC | `blue` (neon cyan) |
+| 04 | Digital Product Feedback Intelligence | BDA & CC | `yellow` (electric yellow) |
+| 05 | Selective Pesticide Spraying | Robotics | `green` (neon green) |
+| 06 | Pipe Inspection with Defect Localization | Robotics | `blue` (neon cyan) |
+| 07 | Autonomous Retrieval of Dropped Objects | Robotics | `red` (neon purple) |
+| 08 | Open Challenge | Open | `yellow` (electric yellow) |
+
+> Accents rotate so no two adjacent challenges share a colour (2 of each).
 
 ---
 
@@ -160,6 +162,15 @@ export const accentColorMap: Record<AccentColor, { text: string; bg: string; bor
 
 ### `ChallengeSection` / `ChallengeDetail`
 - Both consume `accentColorMap` from `challenges.ts` — add new accent colors there, not inline
+
+### `Nav`
+- Inline nav appears at `lg` (not `md`) — 5 links plus the logo lockup will not fit at 768px
+- Below `lg` the same links render in the full-screen mobile menu
+
+### `CollegeLogo` / `LogoStrip` / `Gallery` / `Register`
+- Each holds a single top-of-file constant or array to fill in later:
+  `COLLEGE_LOGO_SRC`, `partnerLogos[].src`, `galleryItems[].src`, `REGISTRATION_URL`
+- All render placeholders until those are set — no layout change when they are
 
 ### `CustomCursor`
 - Only activates on `fine` pointer media devices (mouse, not touch)
@@ -187,7 +198,8 @@ npm run lint
 ## Important Rules
 
 1. **Color changes** → only edit CSS variables in `src/app/globals.css` `:root` block. Never hardcode colors in components.
-2. **New challenges** → add to the `challenges` array in `src/lib/challenges.ts`. Set `accent` to one of the 4 valid values.
+2. **New challenges** → add to the `challenges` array in `src/lib/challenges.ts`. Set `accent` to one of the 4 valid values, and keep `number` sequential from `"01"`.
+   Counts are derived (`totalCount`, `bdaCount`, `roboticsCount`, `openCount`, `pad2`) — **never hardcode a challenge count in a component**.
 3. **New accent colors** → add the type to `AccentColor`, add the CSS variable in globals.css, and add to `accentColorMap`.
 4. **Animations** → all entry animations use Framer Motion. Background animations use CSS keyframes or SVG `animateTransform`. Respect `prefers-reduced-motion` (handled globally in globals.css).
 5. **TypeScript** → build errors are ignored (`ignoreBuildErrors: true`) but keep types correct.

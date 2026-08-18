@@ -18,52 +18,12 @@ export interface Challenge {
 
 export const challenges: Challenge[] = [
   {
-    id: "enterprise-knowledge-discovery",
-    number: "01",
-    title: "Enterprise Knowledge Discovery",
-    domain: "Enterprise AI · Knowledge Management",
-    track: "BDA & CC",
-    accent: "red",
-    illustration: "knowledge-discovery",
-    summary:
-      "Organizational knowledge is scattered across wikis, tickets, PDFs, and chat threads — making it slow for employees to find trustworthy answers when they need them.",
-    tags: ["Search", "RAG", "NLP", "Enterprise Data"],
-    problem:
-      "Large organizations accumulate knowledge across countless disconnected systems — document repositories, wikis, emails, chat logs, and ticketing systems. Employees waste significant time searching for accurate, up-to-date information, often duplicating work or making decisions on outdated data. Build a system that can discover, index, and surface enterprise knowledge from heterogeneous sources, providing accurate, context-aware answers with traceable citations back to source documents.",
-    lookingFor: [
-      "An architecture that can ingest and normalize knowledge from multiple heterogeneous sources",
-      "Retrieval that returns accurate, relevant, and traceable answers with citations",
-      "A thoughtful approach to keeping the knowledge base current as source documents change",
-      "A usable interface for querying and exploring organizational knowledge",
-    ],
-  },
-  {
-    id: "api-change-impact-analysis",
-    number: "02",
-    title: "API Change Impact Analysis",
-    domain: "Software Engineering · API Management",
-    track: "BDA & CC",
-    accent: "blue",
-    illustration: "api-impact",
-    summary:
-      "A single API change can silently break dozens of downstream consumers. Teams need visibility into what will actually be affected before they ship.",
-    tags: ["API Governance", "Dependency Graphs", "DevTools"],
-    problem:
-      "Modern systems are built from large networks of interdependent APIs. When an API is modified — a field renamed, a parameter deprecated, a schema tightened — it can silently break downstream consumers that were never explicitly tracked. Teams frequently discover these breakages only after they reach production. Build a solution that analyzes API specifications and usage patterns to detect breaking and non-breaking changes, and maps the impact of a proposed change across dependent services before it is deployed.",
-    lookingFor: [
-      "Reliable detection of breaking vs. non-breaking API changes",
-      "A dependency graph that maps consumers to the APIs they rely on",
-      "Clear, actionable impact reports for engineering teams",
-      "A workflow that fits naturally into existing CI/CD and review processes",
-    ],
-  },
-  {
     id: "software-release-readiness",
-    number: "03",
+    number: "01",
     title: "Software Release Readiness Assessment",
     domain: "DevOps · Software Quality Engineering",
     track: "BDA & CC",
-    accent: "green",
+    accent: "red",
     illustration: "release-readiness",
     summary:
       "Deciding whether a build is truly ready to ship means weighing test coverage, open defects, and code churn — usually done by gut feel instead of data.",
@@ -78,48 +38,8 @@ export const challenges: Challenge[] = [
     ],
   },
   {
-    id: "intelligent-procurement-analytics",
-    number: "04",
-    title: "Intelligent Procurement Analytics",
-    domain: "Enterprise Resource Planning · Procurement",
-    track: "BDA & CC",
-    accent: "yellow",
-    illustration: "procurement-analytics",
-    summary:
-      "Procurement teams compare vendor quotations, delivery timelines, and pricing trends manually — a process ripe for automation and smarter negotiation.",
-    tags: ["ERP", "Analytics", "Vendor Management"],
-    problem:
-      "Procurement teams handle large volumes of vendor quotations, purchase orders, and delivery records, but comparing vendors on price, quality, and reliability is typically done manually and inconsistently. Build an analytics solution that ingests procurement data to compare vendor quotations, flag pricing anomalies, forecast delivery risk, and recommend optimal purchasing decisions grounded in historical performance.",
-    lookingFor: [
-      "Structured extraction and normalization of quotation and purchase order data",
-      "Meaningful vendor comparison across price, quality, and delivery reliability",
-      "Anomaly detection for unusual pricing or terms",
-      "Clear, actionable recommendations for procurement decision-makers",
-    ],
-  },
-  {
-    id: "cybersecurity-threat-investigation",
-    number: "05",
-    title: "Cybersecurity Threat Investigation",
-    domain: "Cybersecurity · Security Operations",
-    track: "BDA & CC",
-    accent: "red",
-    illustration: "threat-investigation",
-    summary:
-      "Security analysts drown in alert noise. Investigating a genuine threat means manually correlating logs across systems that were never designed to talk to each other.",
-    tags: ["SecOps", "Threat Intelligence", "Log Analysis"],
-    problem:
-      "Security operations teams are overwhelmed by high volumes of alerts generated across firewalls, endpoints, and applications, with only a small fraction representing genuine threats. Investigating an incident requires manually correlating logs from disparate systems — a slow, error-prone process. Build a system that ingests security logs and alerts, correlates related events into coherent incidents, prioritizes them by severity, and assists analysts in investigating and responding to genuine threats faster.",
-    lookingFor: [
-      "Effective correlation of related alerts into a single coherent incident",
-      "Sensible prioritization that reduces noise and surfaces real threats",
-      "An investigative workflow that assists rather than replaces the analyst",
-      "Consideration of explainability — analysts need to trust the system's reasoning",
-    ],
-  },
-  {
     id: "sustainable-cloud-computing",
-    number: "06",
+    number: "02",
     title: "Sustainable Cloud Computing",
     domain: "Cloud Computing · Green Computing",
     track: "BDA & CC",
@@ -139,7 +59,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "supply-chain-risk-intelligence",
-    number: "07",
+    number: "03",
     title: "Supply Chain Risk Intelligence",
     domain: "Supply Chain · Predictive Analytics",
     track: "BDA & CC",
@@ -159,7 +79,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "digital-product-feedback-intelligence",
-    number: "08",
+    number: "04",
     title: "Digital Product Feedback Intelligence",
     domain: "Product Analytics · Artificial Intelligence",
     track: "BDA & CC",
@@ -179,7 +99,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "selective-pesticide-spraying",
-    number: "09",
+    number: "05",
     title: "Selective Pesticide Spraying",
     domain: "Agricultural Robotics · Precision Agriculture · Computer Vision",
     track: "Robotics",
@@ -199,7 +119,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "pipe-inspection-defect-localization",
-    number: "10",
+    number: "06",
     title: "Pipe Inspection with Defect Localization",
     domain: "Inspection Robotics · Infrastructure Monitoring · Autonomous Navigation",
     track: "Robotics",
@@ -219,13 +139,16 @@ export const challenges: Challenge[] = [
   },
   {
     id: "autonomous-retrieval-dropped-objects",
-    number: "11",
+    number: "07",
     title: "Autonomous Retrieval of Dropped Objects",
     domain: "Assistive Robotics · Healthcare Technology · Human-Robot Interaction",
     track: "Robotics",
     accent: "red",
     illustration: "object-retrieval",
     summary:
+      "Individuals with limited mobility often struggle to retrieve objects that fall to the floor, creating dependency on others for the simplest everyday tasks.",
+    tags: ["Assistive Robotics", "Manipulation", "Human-Robot Interaction"],
+    problem:
       "Individuals with limited mobility often struggle to retrieve objects that fall to the floor, creating dependency on others for simple tasks. Build an assistive robotic system that can detect a dropped object, navigate to it, safely grasp or retrieve it, and return it to the person — with an interaction design that feels safe, intuitive, and dignified for the end user.",
     lookingFor: [
       "Reliable object detection and localization in everyday indoor environments",
@@ -236,7 +159,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "open-challenge",
-    number: "12",
+    number: "08",
     title: "Open Challenge",
     domain: "Open Domain · Any Track",
     track: "Open",
@@ -259,6 +182,15 @@ export const challenges: Challenge[] = [
 export const bdaChallenges = challenges.filter((c) => c.track === "BDA & CC")
 export const roboticsChallenges = challenges.filter((c) => c.track === "Robotics")
 export const openChallenges = challenges.filter((c) => c.track === "Open")
+
+/** Counts derived from the data above — never hardcode these in components. */
+export const totalCount = challenges.length
+export const bdaCount = bdaChallenges.length
+export const roboticsCount = roboticsChallenges.length
+export const openCount = openChallenges.length
+
+/** Zero-padded display form, e.g. 8 -> "08". */
+export const pad2 = (n: number) => String(n).padStart(2, "0")
 
 export const accentColorMap: Record<AccentColor, { text: string; bg: string; border: string }> = {
   red: { text: "text-accent-red", bg: "bg-accent-red", border: "border-accent-red" },

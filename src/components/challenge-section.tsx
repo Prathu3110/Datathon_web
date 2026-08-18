@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import type { Challenge } from "@/lib/challenges"
-import { accentColorMap, challenges } from "@/lib/challenges"
+import { accentColorMap, challenges, pad2 } from "@/lib/challenges"
 import { illustrationMap } from "./illustrations"
 
 interface ChallengeSectionProps {
@@ -36,7 +36,7 @@ export function ChallengeSection({ challenge, reversed, onView }: ChallengeSecti
               transition={{ duration: 0.5 }}
               className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-muted"
             >
-              Challenge {challenge.number} / {String(challenges.length).padStart(2, "0")} — {challenge.track}
+              Challenge {challenge.number} / {pad2(challenges.length)} — {challenge.track}
             </motion.p>
 
             <motion.span

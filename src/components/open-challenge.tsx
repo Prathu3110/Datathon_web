@@ -1,10 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { openChallenges } from "@/lib/challenges"
 
 export function OpenChallenge() {
+  const open = openChallenges[0]
+
   return (
-    <section id="challenge-12" className="border-t border-line py-24 md:py-32">
+    <section id={`challenge-${open.number}`} className="border-t border-line py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="flex flex-col items-center gap-10 text-center">
 
@@ -15,7 +18,7 @@ export function OpenChallenge() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-muted"
           >
-            Problem Statement 12
+            Problem Statement {open.number}
           </motion.p>
 
           <motion.span
@@ -25,7 +28,7 @@ export function OpenChallenge() {
             transition={{ duration: 0.5 }}
             className="font-display mt-1 block text-6xl font-black text-accent-yellow md:text-8xl"
           >
-            12
+            {open.number}
           </motion.span>
 
           <motion.h2

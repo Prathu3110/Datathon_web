@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { CollegeLogo } from "./college-logo"
 
 const links = [
   { label: "Challenges", href: "#challenges" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Register", href: "#register" },
   { label: "About", href: "#about" },
   { label: "Rules", href: "#rules" },
 ]
@@ -26,26 +29,33 @@ export function Nav() {
         scrolled ? "bg-background/90 backdrop-blur-sm border-b border-line" : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10">
-        <a
-          href="#top"
-          className="group relative font-display text-[13px] font-bold uppercase tracking-[0.14em] text-ink"
-        >
-          Datathon 2K26
-          <span
-            className="pointer-events-none absolute left-0 top-full mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.18em] text-ink-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            aria-hidden
-          >
-            Est. 2026
-          </span>
-        </a>
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-4 md:px-10">
+        {/* College logo + event wordmark lockup */}
+        <div className="flex min-w-0 items-center gap-3 md:gap-4">
+          <CollegeLogo className="h-7 md:h-9" />
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+          <span className="h-6 w-px shrink-0 bg-border md:h-8" aria-hidden />
+
+          <a
+            href="#top"
+            className="group relative shrink-0 font-display text-[13px] font-bold uppercase tracking-[0.14em] text-ink"
+          >
+            Datathon 2K26
+            <span
+              className="pointer-events-none absolute left-0 top-full mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.18em] text-ink-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              aria-hidden
+            >
+              Est. 2026
+            </span>
+          </a>
+        </div>
+
+        <nav className="hidden shrink-0 items-center gap-6 lg:flex xl:gap-8" aria-label="Primary">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="group relative text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors duration-500 hover:text-ink"
+              className="group relative whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors duration-500 hover:text-ink"
             >
               {link.label}
               <span
@@ -59,7 +69,7 @@ export function Nav() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex flex-col items-end gap-[5px] p-2 md:hidden"
+          className="flex shrink-0 flex-col items-end gap-[5px] p-2 lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
         >
@@ -79,7 +89,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-[57px] bottom-0 z-40 bg-background md:hidden"
+            className="fixed inset-x-0 top-[57px] bottom-0 z-40 bg-background lg:hidden"
             aria-label="Primary"
           >
             <div className="flex flex-col px-6 py-4">
