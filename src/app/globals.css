@@ -24,21 +24,21 @@
 }
 
 :root {
-  color-scheme: light;
-  --background: #dcedc8;
-  --foreground: #1c1a17;
-  --paper: #dcedc8;
-  --ink: #1c1a17;
-  --ink-muted: #6b665c;
-  --line: #a5c98a;
-  --card: #c5e1a5;
-  --card-foreground: #1c1a17;
-  --border: #a5c98a;
-  --ring: #1c1a17;
-  --accent-red: #a8462f;
-  --accent-blue: #395c73;
-  --accent-green: #4b6650;
-  --accent-yellow: #b5872b;
+  color-scheme: dark;
+  --background: #04080a;
+  --foreground: #e4fff4;
+  --paper: #070e0c;
+  --ink: #e4fff4;
+  --ink-muted: #39d98a;
+  --line: #00ff88;
+  --card: #0c1a14;
+  --card-foreground: #e4fff4;
+  --border: #0d3324;
+  --ring: #00ff88;
+  --accent-red: #bf5fff;
+  --accent-blue: #00e5ff;
+  --accent-green: #00ff88;
+  --accent-yellow: #ccff00;
   --radius: 0.25rem;
 }
 
@@ -53,6 +53,55 @@
 
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* All content above background waves */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Chrome animated title text ── */
+  .chrome-text {
+    background: linear-gradient(
+      105deg,
+      #606060 0%,
+      #aaaaaa 12%,
+      #ebebeb 24%,
+      #ffffff 32%,
+      #d0d0d0 42%,
+      #888888 52%,
+      #c8c8c8 62%,
+      #ffffff 74%,
+      #b0b0b0 86%,
+      #606060 100%
+    );
+    background-size: 280% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: chrome-shimmer 5s linear infinite;
+    cursor: pointer;
+    transition: filter 0.25s ease;
+    display: block;
+  }
+
+  .chrome-text:hover {
+    filter: brightness(1.35) drop-shadow(0 0 28px rgba(255, 255, 255, 0.55));
+    animation-duration: 1.8s;
+  }
+
+  .chrome-flash {
+    filter: brightness(2.8) drop-shadow(0 0 55px rgba(255, 255, 255, 0.95)) !important;
+    animation-duration: 0.35s !important;
+  }
+
+  @keyframes chrome-shimmer {
+    0%   { background-position: 220% center; }
+    100% { background-position: -220% center; }
   }
 }
 

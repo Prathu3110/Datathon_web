@@ -13,6 +13,7 @@ import { OpenChallenge } from "@/components/open-challenge"
 import { SiteFooter } from "@/components/site-footer"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { CustomCursor } from "@/components/custom-cursor"
+import { BackgroundWaves } from "@/components/background-waves"
 import { bdaChallenges, roboticsChallenges } from "@/lib/challenges"
 
 export default function Page() {
@@ -21,6 +22,7 @@ export default function Page() {
   return (
     <MotionConfig reducedMotion="user">
       <main className="relative">
+        <BackgroundWaves />
         <Nav />
         <Hero />
         <ChallengeIndex />

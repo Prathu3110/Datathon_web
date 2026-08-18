@@ -8,10 +8,16 @@ const lines = ["DATATHON", "2K26"]
 
 export function Hero() {
   const [revealed, setRevealed] = useState(false)
+  const [isFlashing, setIsFlashing] = useState(false)
 
   const handleCounterClick = () => {
     setRevealed(true)
     window.setTimeout(() => setRevealed(false), 1800)
+  }
+
+  const handleTitleClick = () => {
+    setIsFlashing(true)
+    window.setTimeout(() => setIsFlashing(false), 500)
   }
 
   return (
@@ -23,14 +29,18 @@ export function Hero() {
           <span>BDA &amp; CC × Robotics</span>
         </div>
 
-        <h1 className="mt-6 overflow-hidden font-display leading-[0.86] text-ink">
+        <h1
+          className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none"
+          onClick={handleTitleClick}
+          title="Click me!"
+        >
           {lines.map((line) => (
             <motion.span
               key={line}
               initial={{ y: "0.6em", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: lines.indexOf(line) * 0.09, ease: [0.16, 1, 0.3, 1] }}
-              className="block text-[12vw] font-black tracking-tight sm:text-[13vw] md:text-[12vw]"
+              className={`chrome-text text-[12vw] font-black tracking-tight sm:text-[13vw] md:text-[12vw] ${isFlashing ? "chrome-flash" : ""}`}
             >
               {line}
             </motion.span>
