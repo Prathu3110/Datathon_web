@@ -32,16 +32,20 @@ export function Nav() {
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-4 md:px-10">
         {/* Event wordmark lockup — left */}
         <div className="flex min-w-0 items-center gap-3 md:gap-4">
-          <a
-            href="#top"
-            className="group relative shrink-0 font-display text-[13px] font-bold uppercase tracking-[0.14em] text-ink"
-          >
-            Datathon 2K26
-            <span
-              className="pointer-events-none absolute left-0 top-full mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.18em] text-ink-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              aria-hidden
-            >
-              Est. 2026
+          <a href="#top" className="flex items-center gap-3 group">
+            <img
+              src="/datatrix-logo.jpeg"
+              alt="DATATRIX Logo"
+              className="h-8 md:h-10 w-auto object-contain rounded-lg border border-border/60 p-0.5 bg-card/60 group-hover:border-accent-green/50 transition-colors"
+            />
+            <span className="relative shrink-0 font-display text-[13px] md:text-[14px] font-bold uppercase tracking-[0.14em] text-ink">
+              Datathon 2K26
+              <span
+                className="pointer-events-none absolute left-0 top-full mt-0.5 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.18em] text-accent-green opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                aria-hidden
+              >
+                DATATRIX × SRM
+              </span>
             </span>
           </a>
         </div>
