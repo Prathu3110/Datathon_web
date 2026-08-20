@@ -71,7 +71,7 @@ export function LogoStrip() {
   return (
     <section
       aria-labelledby="partners-heading"
-      className="border-b border-line py-16 md:py-24"
+      className="border-t border-b border-line py-16 md:py-24"
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

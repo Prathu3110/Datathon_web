@@ -7,7 +7,11 @@ import { totalCount, openCount, pad2 } from "@/lib/challenges"
 
 const lines = ["DATATHON", "2K26"]
 
-export function Hero() {
+interface HeroProps {
+  ready?: boolean
+}
+
+export function Hero({ ready = true }: HeroProps) {
   const [revealed, setRevealed] = useState(false)
   const [isFlashing, setIsFlashing] = useState(false)
 
@@ -26,24 +30,36 @@ export function Hero() {
       <div className="hero-aura" aria-hidden />
 
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <div className="flex flex-col items-start gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted md:flex-row md:items-center md:gap-4">
-          <span>Inter-Department Hackathon</span>
-          <span className="hidden h-[1px] w-6 bg-line md:block" aria-hidden />
-          <span>BDA &amp; CC × Robotics</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="space-y-1.5"
+        >
+          <p className="text-base font-bold uppercase tracking-[0.16em] text-accent-green sm:text-lg md:text-xl lg:text-2xl">
+            SRM Ramapuram - Institute Of Science And Technology
+          </p>
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-muted sm:text-base md:text-lg">
+            Department of CSE with specialization in Big Data Analytics and Cloud Computing
+          </p>
+        </motion.div>
 
         <h1
           className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none"
           onClick={handleTitleClick}
           title="Click me!"
         >
-          {lines.map((line) => (
+          {lines.map((line, idx) => (
             <motion.span
               key={line}
               data-text={line}
-              initial={{ y: "0.6em", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1.15, delay: lines.indexOf(line) * 0.16, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ y: 36, opacity: 0 }}
+              animate={ready ? { y: 0, opacity: 1 } : { y: 36, opacity: 0 }}
+              transition={{
+                duration: 0.85,
+                delay: 0.08 + idx * 0.12,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className={`chrome-text text-[12vw] font-black tracking-tight sm:text-[13vw] md:text-[12vw] ${isFlashing ? "chrome-flash" : ""}`}
             >
               {line}
@@ -54,15 +70,52 @@ export function Hero() {
         <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, delay: 0.28 }}
             className="max-w-md"
           >
-            <p className="text-balance text-lg leading-relaxed text-ink-muted">
-              {totalCount} problem statements. Two disciplines.{" "}
-              {totalCount - openCount} official challenges — plus one open canvas for whatever
-              you dare to build.
+
+            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+              <span>Inter-Department Hackathon</span>
+              <span className="h-[1px] w-5 bg-line hidden sm:block" aria-hidden />
+              <span>BDA &amp; CC × Robotics</span>
             </p>
+
+            {/* ── Registration CTA ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-7 flex items-center gap-4"
+            >
+              <a
+                id="hero-register-btn"
+                href="#register"
+                className="hero-register-btn"
+              >
+                <span className="hero-register-pulse" aria-hidden />
+                Register&nbsp;Now
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </a>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+                via Google&nbsp;Forms
+              </span>
+            </motion.div>
+
             <button
               type="button"
               onClick={handleCounterClick}
@@ -116,15 +169,19 @@ export function Hero() {
 
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: [0, -6, 0],
-            }}
+            animate={
+              ready
+                ? {
+                    opacity: 1,
+                    scale: 1,
+                    y: [0, -6, 0],
+                  }
+                : { opacity: 0, scale: 0.92 }
+            }
             transition={{
-              opacity: { duration: 0.6, delay: 0.35 },
-              scale: { duration: 0.6, delay: 0.35 },
-              y: { duration: 4.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 },
+              opacity: { duration: 0.6, delay: 0.25 },
+              scale: { duration: 0.6, delay: 0.25 },
+              y: { duration: 4.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.8 },
             }}
             data-cursor="expand"
             className="text-ink-muted"
@@ -137,8 +194,8 @@ export function Hero() {
         <motion.a
           href="#challenges"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          animate={ready ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-16 inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors hover:text-ink md:mt-24"
         >
           Scroll to explore

@@ -11,7 +11,7 @@ import Image from "next/image"
  * width follow the image's own aspect ratio, so the header layout stays put
  * whatever proportions the logo turns out to have.
  */
-const COLLEGE_LOGO_SRC: string = ""
+const COLLEGE_LOGO_SRC: string = "/college-logo.jpeg"
 
 export const COLLEGE_LOGO_ALT = "SRM Institute of Science & Technology, Ramapuram"
 
@@ -26,8 +26,8 @@ export function CollegeLogo({ className = "h-7 md:h-9" }: CollegeLogoProps) {
       <Image
         src={COLLEGE_LOGO_SRC}
         alt={COLLEGE_LOGO_ALT}
-        width={240}
-        height={72}
+        width={320}
+        height={80}
         priority
         className={`w-auto shrink-0 object-contain ${className}`}
       />

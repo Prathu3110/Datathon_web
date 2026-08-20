@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { LogoStrip } from "./logo-strip"
 import { totalCount, openCount, pad2 } from "@/lib/challenges"
 
 export function SiteFooter() {
@@ -10,8 +9,7 @@ export function SiteFooter() {
   const officialCount = totalCount - openCount
 
   return (
-    <footer id="about" className="border-t-2 border-ink">
-      <LogoStrip />
+    <footer className="border-t-2 border-ink">
 
       <div className="mx-auto max-w-[1400px] px-6 py-14 md:px-10 md:py-20">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">

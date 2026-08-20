@@ -46,6 +46,8 @@ export function BackgroundWaves() {
         zIndex: 0,
         pointerEvents: "none",
         overflow: "hidden",
+        transform: "translateZ(0)",
+        willChange: "transform",
       }}
     >
       <svg

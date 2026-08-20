@@ -30,12 +30,8 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-4 md:px-10">
-        {/* College logo + event wordmark lockup */}
+        {/* Event wordmark lockup — left */}
         <div className="flex min-w-0 items-center gap-3 md:gap-4">
-          <CollegeLogo className="h-7 md:h-9" />
-
-          <span className="h-6 w-px shrink-0 bg-border md:h-8" aria-hidden />
-
           <a
             href="#top"
             className="group relative shrink-0 font-display text-[13px] font-bold uppercase tracking-[0.14em] text-ink"
@@ -65,6 +61,11 @@ export function Nav() {
             </a>
           ))}
         </nav>
+
+        {/* College logo — top-right, always visible on scroll */}
+        <div className="ml-auto flex shrink-0 items-center">
+          <CollegeLogo className="h-8 md:h-11" />
+        </div>
 
         <button
           type="button"

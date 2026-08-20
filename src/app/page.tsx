@@ -1,17 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { MotionConfig } from "framer-motion"
+import { MotionConfig, AnimatePresence } from "framer-motion"
 import { Nav } from "@/components/nav"
 import { Hero } from "@/components/hero"
+import { LoadingScreen } from "@/components/loading-screen"
 import { ChallengeIndex } from "@/components/challenge-index"
 import { SectionDivider } from "@/components/section-divider"
 import { SectionInterstitial } from "@/components/section-interstitial"
 import { ChallengeSection } from "@/components/challenge-section"
 import { ChallengeDetail } from "@/components/challenge-detail"
 import { OpenChallenge } from "@/components/open-challenge"
+import { AboutSection } from "@/components/about-section"
 import { Gallery } from "@/components/gallery"
 import { Register } from "@/components/register"
+import { LogoStrip } from "@/components/logo-strip"
 import { SiteFooter } from "@/components/site-footer"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { CustomCursor } from "@/components/custom-cursor"
@@ -20,13 +23,18 @@ import { bdaChallenges, roboticsChallenges, pad2 } from "@/lib/challenges"
 
 export default function Page() {
   const [activeChallenge, setActiveChallenge] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   return (
     <MotionConfig reducedMotion="user">
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+
       <main className="relative">
         <BackgroundWaves />
         <Nav />
-        <Hero />
+        <Hero ready={!isLoading} />
         <ChallengeIndex />
 
         <SectionDivider
@@ -35,7 +43,7 @@ export default function Page() {
           lines={["BDA", "&", "CC"]}
           supporting={
             <>
-              Business Data Analytics
+              Big Data Analytics
               <br />
               &amp; Cloud Computing
             </>
@@ -84,8 +92,20 @@ export default function Page() {
         ))}
 
         <OpenChallenge />
+        <AboutSection />
         <Gallery />
+        <LogoStrip />
         <Register />
+
+        {/* ── University Rankings & Accreditation Banner ── */}
+        <section aria-label="University accreditation and world rankings" className="rankings-banner-section">
+          <img
+            src="/rankings-banner-updated.jpg"
+            alt="University accreditation and world rankings — NAAC A++, NIRF Ranked 11th University, QS, THE, Shanghai Ranking, Nature Index, GreenMetric"
+            className="rankings-banner-img"
+          />
+        </section>
+
         <SiteFooter />
 
         <ChallengeDetail challengeId={activeChallenge} onClose={() => setActiveChallenge(null)} />

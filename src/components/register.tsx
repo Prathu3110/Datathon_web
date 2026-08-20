@@ -9,7 +9,7 @@ import { totalCount, openCount } from "@/lib/challenges"
  * While it is empty the section shows a "opening soon" state rather than a
  * dead link.
  */
-const REGISTRATION_URL: string = ""
+const REGISTRATION_URL: string = "https://docs.google.com/forms/d/e/1FAIpQLSeM5rvAy7xSEhrIP7jhMtnzx4VZHq1VnuVvDKDBDYNlgvrCyw/viewform?usp=publish-editor"
 
 export function Register() {
   return (
