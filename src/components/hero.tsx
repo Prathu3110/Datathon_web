@@ -45,7 +45,7 @@ export function Hero({ ready = true }: HeroProps) {
         </motion.div>
 
         <h1
-          className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none"
+          className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none -ml-[0.035em]"
           onClick={handleTitleClick}
           title="Click me!"
         >
