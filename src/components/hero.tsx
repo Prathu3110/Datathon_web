@@ -34,18 +34,18 @@ export function Hero({ ready = true }: HeroProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="space-y-1.5"
+          className="space-y-2"
         >
-          <p className="text-base font-bold uppercase tracking-[0.16em] text-accent-green sm:text-lg md:text-xl lg:text-2xl">
+          <p className="font-display text-base font-bold uppercase tracking-wider text-accent-green sm:text-lg md:text-xl lg:text-2xl">
             SRM Ramapuram - Institute Of Science And Technology
           </p>
-          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-muted sm:text-base md:text-lg">
+          <p className="font-display text-xs font-semibold uppercase tracking-wide text-ink-muted sm:text-sm md:text-base">
             Department of CSE with specialization in Big Data Analytics and Cloud Computing
           </p>
         </motion.div>
 
         <h1
-          className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none -ml-[0.035em]"
+          className="mt-6 overflow-hidden font-display leading-[0.86] cursor-pointer select-none"
           onClick={handleTitleClick}
           title="Click me!"
         >
