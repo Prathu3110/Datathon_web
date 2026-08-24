@@ -37,7 +37,7 @@ export function Hero({ ready = true }: HeroProps) {
           className="space-y-2"
         >
           <p className="font-display text-base font-bold uppercase tracking-wider text-accent-green sm:text-lg md:text-xl lg:text-2xl">
-            SRM Ramapuram - Institute Of Science And Technology
+            SRM Institute Of Science And Technology
           </p>
           <p className="font-display text-xs font-semibold uppercase tracking-wide text-ink-muted sm:text-sm md:text-base">
             Department of CSE with specialization in Big Data Analytics and Cloud Computing

@@ -316,12 +316,12 @@ export function OrbitalImageWheel({
                 }}
               >
                 {/* Pure Image card layer */}
-                <div
-                  className="w-full h-full bg-cover bg-center relative"
-                  style={{ backgroundImage: `url(${item.src})` }}
-                  role="img"
-                  aria-label={item.alt || `Photo ${index + 1}`}
-                >
+                <div className="w-full h-full relative overflow-hidden bg-black/80 flex items-center justify-center p-1">
+                  <img
+                    src={item.src}
+                    alt={item.alt || `Photo ${index + 1}`}
+                    className="max-h-full max-w-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-500 rounded-lg"
+                  />
                   {/* Subtle hover expand icon on active card */}
                   {isActive && (
                     <div className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-md border border-accent-green/40 text-accent-green opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all shadow-[0_0_12px_rgba(0,255,136,0.3)]">
@@ -369,66 +369,75 @@ export function OrbitalImageWheel({
         </button>
       </div>
 
-      {/* ── Minimalist Clean Pop-up Modal ── */}
+      {/* ── Polished Lightbox Modal (Uncropped Full Image View) ── */}
       <AnimatePresence>
         {isModalOpen && activeItem && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+          <div className="fixed inset-0 z-[100] flex flex-col items-center justify-between p-3 sm:p-6 md:p-8">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-background/90 backdrop-blur-xl"
+              className="absolute inset-0 bg-background/95 backdrop-blur-2xl"
             />
 
-            {/* Modal Dialog */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: 15 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 w-full max-w-4xl max-h-[90vh] flex flex-col items-center justify-center rounded-3xl border border-accent-green/40 bg-card/95 shadow-[0_0_80px_rgba(0,255,136,0.25)] overflow-hidden p-4 sm:p-6"
-            >
-              {/* Top Action Bar */}
-              <div className="w-full flex items-center justify-between pb-4">
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={handlePrev}
-                    aria-label="Previous photo"
-                    className="p-2 rounded-full border border-border text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    aria-label="Next photo"
-                    className="p-2 rounded-full border border-border text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-
+            {/* Top Bar Controls */}
+            <div className="relative z-10 w-full max-w-6xl flex items-center justify-between py-2.5 px-4 rounded-2xl bg-card/70 border border-border/80 backdrop-blur-md shadow-lg">
+              <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  aria-label="Close"
-                  className="p-2 rounded-full bg-background/80 border border-border text-ink hover:text-accent-green hover:border-accent-green/80 transition-all cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handlePrev()
+                  }}
+                  aria-label="Previous photo"
+                  className="p-2.5 rounded-xl border border-border bg-background/80 text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <ChevronLeft className="w-5 h-5" />
                 </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleNext()
+                  }}
+                  aria-label="Next photo"
+                  className="p-2.5 rounded-xl border border-border bg-background/80 text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                <span className="text-xs font-bold uppercase tracking-widest text-ink-muted ml-2">
+                  {currentIndex + 1} / {count}
+                </span>
               </div>
 
-              {/* Photo Display */}
-              <div className="relative w-full flex items-center justify-center overflow-hidden">
-                <img
-                  src={activeItem.src}
-                  alt={activeItem.alt || "Gallery Photo"}
-                  className="max-h-[75vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl ring-1 ring-white/10"
-                />
-              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                aria-label="Close modal"
+                className="p-2.5 rounded-xl bg-background/80 border border-border text-ink hover:text-accent-green hover:border-accent-green/80 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Main Center Uncropped Image Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 flex-1 w-full flex items-center justify-center p-2 my-auto min-h-0"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <img
+                key={activeItem.src}
+                src={activeItem.src}
+                alt={activeItem.alt || "Gallery Photo"}
+                onClick={(e) => e.stopPropagation()}
+                className="max-h-[88vh] max-w-[96vw] w-auto h-auto object-contain rounded-xl shadow-[0_0_90px_rgba(0,0,0,0.95)]"
+              />
             </motion.div>
           </div>
         )}

@@ -66,9 +66,9 @@ export function Nav() {
           ))}
         </nav>
 
-        {/* College logo — top-right, always visible on scroll */}
+        {/* College logo — top-right, highly visible */}
         <div className="ml-auto flex shrink-0 items-center">
-          <CollegeLogo className="h-8 md:h-11" />
+          <CollegeLogo className="h-12 sm:h-14 md:h-16" />
         </div>
 
         <button
