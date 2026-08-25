@@ -1,10 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { MotionConfig, AnimatePresence } from "framer-motion"
+import { MotionConfig } from "framer-motion"
 import { Nav } from "@/components/nav"
 import { Hero } from "@/components/hero"
-import { LoadingScreen } from "@/components/loading-screen"
 import { ChallengeIndex } from "@/components/challenge-index"
 import { SectionDivider } from "@/components/section-divider"
 import { SectionInterstitial } from "@/components/section-interstitial"
@@ -23,18 +22,13 @@ import { bdaChallenges, roboticsChallenges, pad2 } from "@/lib/challenges"
 
 export default function Page() {
   const [activeChallenge, setActiveChallenge] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   return (
     <MotionConfig reducedMotion="user">
-      <AnimatePresence mode="wait">
-        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      </AnimatePresence>
-
       <main className="relative">
         <BackgroundWaves />
         <Nav />
-        <Hero ready={!isLoading} />
+        <Hero />
         <ChallengeIndex />
 
         <SectionDivider
@@ -102,6 +96,8 @@ export default function Page() {
           <img
             src="/rankings-banner-updated.jpg"
             alt="University accreditation and world rankings — NAAC A++, NIRF Ranked 11th University, QS, THE, Shanghai Ranking, Nature Index, GreenMetric"
+            loading="lazy"
+            decoding="async"
             className="rankings-banner-img"
           />
         </section>

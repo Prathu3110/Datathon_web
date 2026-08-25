@@ -7,15 +7,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import {
-  ChevronLeft,
-  ChevronRight,
-  Pause,
-  Play,
-  Maximize2,
-  X,
-} from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export interface OrbitalImageWheelImage {
@@ -38,21 +30,23 @@ export function OrbitalImageWheel({
   className,
 }: OrbitalImageWheelProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
   const [containerWidth, setContainerWidth] = useState(1200)
-  const [isMounted, setIsMounted] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [isInView, setIsInView] = useState(false)
 
   // Drag physics state
   const containerRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
   const startXRef = useRef(0)
   const dragDistanceRef = useRef(0)
   const rotationAngleRef = useRef(0)
   const targetAngleRef = useRef(0)
   const animationFrameRef = useRef<number | null>(null)
+  const wheelCooldownRef = useRef(false)
+  const handleNextRef = useRef<() => void>(() => {})
+  const handlePrevRef = useRef<() => void>(() => {})
   const [, setRenderTrigger] = useState(0)
+  const [isActiveHovered, setIsActiveHovered] = useState(false)
 
   // Duplicate items if count is small (< 6) for a full, rich 3D wheel experience
   const displayImages = useMemo(() => {
@@ -72,7 +66,6 @@ export function OrbitalImageWheel({
 
   // Viewport IntersectionObserver to completely halt animations when off-screen
   useEffect(() => {
-    setIsMounted(true)
     const element = containerRef.current
     if (!element) return
 
@@ -164,20 +157,61 @@ export function OrbitalImageWheel({
     snapToIndex(currentIndex - 1)
   }, [currentIndex, snapToIndex])
 
-  // Autoplay (only active when in view and modal is closed)
   useEffect(() => {
-    if (!isPlaying || isModalOpen || !isInView) return
+    handleNextRef.current = handleNext
+  }, [handleNext])
+
+  useEffect(() => {
+    handlePrevRef.current = handlePrev
+  }, [handlePrev])
+
+  // Reset hover-zoom whenever the active card changes so it doesn't
+  // appear pre-zoomed before the pointer actually hovers it
+  useEffect(() => {
+    setIsActiveHovered(false)
+  }, [currentIndex])
+
+  // Mouse-wheel / trackpad scroll navigation. Uses a native, non-passive
+  // listener so preventDefault() can stop the page from scrolling while
+  // the wheel is being "scrolled" through, with a short cooldown so one
+  // scroll gesture advances one card at a time instead of spinning wildly.
+  useEffect(() => {
+    const el = stageRef.current
+    if (!el) return
+
+    const onWheel = (e: WheelEvent) => {
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX
+      if (Math.abs(delta) < 4) return
+      e.preventDefault()
+      if (wheelCooldownRef.current) return
+      wheelCooldownRef.current = true
+      if (delta > 0) {
+        handleNextRef.current()
+      } else {
+        handlePrevRef.current()
+      }
+      window.setTimeout(() => {
+        wheelCooldownRef.current = false
+      }, 220)
+    }
+
+    el.addEventListener("wheel", onWheel, { passive: false })
+    return () => el.removeEventListener("wheel", onWheel)
+  }, [])
+
+  // Autoplay (only active while the gallery is in view)
+  useEffect(() => {
+    if (!isInView) return
     const timer = setInterval(() => {
       if (!isDraggingRef.current) {
         handleNext()
       }
     }, autoPlayInterval)
     return () => clearInterval(timer)
-  }, [isPlaying, isModalOpen, isInView, handleNext, autoPlayInterval])
+  }, [isInView, handleNext, autoPlayInterval])
 
   // Mouse / Touch Drag handlers with momentum
   const handlePointerDown = (e: React.PointerEvent) => {
-    if (isModalOpen) return
     isDraggingRef.current = true
     startXRef.current = e.clientX
     dragDistanceRef.current = 0
@@ -186,7 +220,7 @@ export function OrbitalImageWheel({
   }
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current || isModalOpen) return
+    if (!isDraggingRef.current) return
     const deltaX = e.clientX - startXRef.current
     dragDistanceRef.current = deltaX
 
@@ -210,15 +244,12 @@ export function OrbitalImageWheel({
   useEffect(() => {
     if (!isInView) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsModalOpen(false)
       if (e.key === "ArrowLeft") handlePrev()
       if (e.key === "ArrowRight") handleNext()
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isInView, handleNext, handlePrev])
-
-  const activeItem = displayImages[currentIndex] || displayImages[0]
 
   return (
     <div
@@ -244,6 +275,7 @@ export function OrbitalImageWheel({
 
       {/* 3D Orbit Stage */}
       <div
+        ref={stageRef}
         className="relative w-full flex items-center justify-center cursor-grab active:cursor-grabbing"
         style={{
           height: cardHeight + (isMobile ? 50 : 80),
@@ -266,7 +298,7 @@ export function OrbitalImageWheel({
             const sin = Math.sin(itemAngle)
 
             const normAngle = Math.abs(Math.atan2(sin, cos))
-            const isVisible = count <= 8 || normAngle < Math.PI * 0.72
+            const isVisible = count <= 8 || normAngle < Math.PI * 0.6
             if (!isVisible) return null
 
             const x = sin * radiusX
@@ -276,29 +308,30 @@ export function OrbitalImageWheel({
             const depth = Math.max(0, (cos + 1) / 2)
             const scale = isMobile ? 0.74 + depth * 0.28 : 0.7 + depth * 0.35
             const opacity = Math.max(0.1, Math.min(1, 0.2 + depth * 0.8))
-            const blur = Math.max(0, (1 - depth) * (isMobile ? 2.5 : 4))
             const rotateY = -sin * 30
             const rotateZ = sin * (isMobile ? 2.5 : 4)
             const isActive = index === currentIndex
+
+            const hoverZoom = isActive && isActiveHovered ? 1.16 : 1
 
             return (
               <div
                 key={index}
                 suppressHydrationWarning
                 onClick={() => {
-                  if (Math.abs(dragDistanceRef.current) < 8) {
-                    if (isActive) {
-                      setIsModalOpen(true)
-                    } else {
-                      snapToIndex(index)
-                    }
+                  if (!isActive && Math.abs(dragDistanceRef.current) < 8) {
+                    snapToIndex(index)
                   }
                 }}
+                onMouseEnter={() => {
+                  if (isActive) setIsActiveHovered(true)
+                }}
+                onMouseLeave={() => {
+                  if (isActive) setIsActiveHovered(false)
+                }}
                 className={cn(
-                  "absolute left-1/2 top-1/2 origin-center transition-shadow duration-500 rounded-2xl overflow-hidden cursor-pointer group bg-card",
-                  isActive
-                    ? "ring-2 ring-accent-green shadow-[0_0_40px_rgba(0,255,136,0.4)] hover:shadow-[0_0_55px_rgba(0,255,136,0.6)]"
-                    : "ring-1 ring-border/80 hover:ring-accent-green/50"
+                  "absolute left-1/2 top-1/2 origin-center group",
+                  isActive ? "cursor-default" : "cursor-pointer"
                 )}
                 style={{
                   width: `${cardWidth}px`,
@@ -306,28 +339,43 @@ export function OrbitalImageWheel({
                   marginLeft: `-${cardWidth / 2}px`,
                   marginTop: `-${cardHeight / 2}px`,
                   transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`,
-                  zIndex: Math.round(depth * 1000),
+                  zIndex: isActive && isActiveHovered ? 2000 : Math.round(depth * 1000),
                   opacity,
-                  filter: `blur(${blur}px)`,
-                  transition: isDraggingRef.current ? "none" : "box-shadow 0.3s ease, filter 0.2s ease",
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
-                  willChange: isDraggingRef.current ? "transform, opacity" : "auto",
+                  willChange:
+                    isDraggingRef.current || animationFrameRef.current !== null
+                      ? "transform, opacity"
+                      : "auto",
                 }}
               >
-                {/* Pure Image card layer */}
-                <div className="w-full h-full relative overflow-hidden bg-black/80 flex items-center justify-center p-1">
-                  <img
-                    src={item.src}
-                    alt={item.alt || `Photo ${index + 1}`}
-                    className="max-h-full max-w-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-500 rounded-lg"
-                  />
-                  {/* Subtle hover expand icon on active card */}
-                  {isActive && (
-                    <div className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-md border border-accent-green/40 text-accent-green opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all shadow-[0_0_12px_rgba(0,255,136,0.3)]">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                    </div>
+                {/*
+                  Hover-zoom wrapper: owns the rounded/clip boundary AND the
+                  hover scale together, so scaling up grows the whole clipped
+                  frame instead of the image overflowing a fixed-size box.
+                */}
+                <div
+                  className={cn(
+                    "w-full h-full rounded-2xl overflow-hidden bg-card transition-[transform,box-shadow] duration-300 ease-out",
+                    isActive
+                      ? "ring-2 ring-accent-green shadow-[0_0_40px_rgba(0,255,136,0.4)] hover:shadow-[0_0_55px_rgba(0,255,136,0.6)]"
+                      : "ring-1 ring-border/80 hover:ring-accent-green/50"
                   )}
+                  style={{
+                    transform: `scale(${hoverZoom})`,
+                    transformOrigin: "center",
+                  }}
+                >
+                  {/* Pure Image card layer */}
+                  <div className="w-full h-full relative overflow-hidden bg-black/80 flex items-center justify-center p-1">
+                    <img
+                      src={item.src}
+                      alt={item.alt || `Photo ${index + 1}`}
+                      loading={isActive ? "eager" : "lazy"}
+                      decoding="async"
+                      className="max-h-full max-w-full w-auto h-auto object-contain rounded-lg"
+                    />
+                  </div>
                 </div>
               </div>
             )
@@ -335,7 +383,7 @@ export function OrbitalImageWheel({
         </div>
       </div>
 
-      {/* Pure Navigation Controls (Left, Pause/Play, Right) */}
+      {/* Pure Navigation Controls (Left, Right) */}
       <div className="flex items-center justify-center gap-4 z-20">
         <button
           type="button"
@@ -348,19 +396,6 @@ export function OrbitalImageWheel({
 
         <button
           type="button"
-          onClick={() => setIsPlaying(!isPlaying)}
-          aria-label={isPlaying ? "Pause" : "Play"}
-          className="p-3 rounded-full bg-card/90 border border-border text-ink hover:text-accent-green hover:border-accent-green/60 transition-all duration-200 flex items-center justify-center cursor-pointer active:scale-95 shadow-lg"
-        >
-          {isPlaying ? (
-            <Pause className="w-5 h-5 text-accent-green" />
-          ) : (
-            <Play className="w-5 h-5 text-accent-green ml-0.5" />
-          )}
-        </button>
-
-        <button
-          type="button"
           onClick={handleNext}
           aria-label="Next photo"
           className="p-3 rounded-full bg-card/90 border border-border text-ink hover:text-accent-green hover:border-accent-green/60 transition-all duration-200 cursor-pointer active:scale-95 shadow-lg"
@@ -368,80 +403,6 @@ export function OrbitalImageWheel({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
-
-      {/* ── Polished Lightbox Modal (Uncropped Full Image View) ── */}
-      <AnimatePresence>
-        {isModalOpen && activeItem && (
-          <div className="fixed inset-0 z-[100] flex flex-col items-center justify-between p-3 sm:p-6 md:p-8">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-background/95 backdrop-blur-2xl"
-            />
-
-            {/* Top Bar Controls */}
-            <div className="relative z-10 w-full max-w-6xl flex items-center justify-between py-2.5 px-4 rounded-2xl bg-card/70 border border-border/80 backdrop-blur-md shadow-lg">
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handlePrev()
-                  }}
-                  aria-label="Previous photo"
-                  className="p-2.5 rounded-xl border border-border bg-background/80 text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleNext()
-                  }}
-                  aria-label="Next photo"
-                  className="p-2.5 rounded-xl border border-border bg-background/80 text-ink hover:text-accent-green hover:border-accent-green/60 transition-colors"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                <span className="text-xs font-bold uppercase tracking-widest text-ink-muted ml-2">
-                  {currentIndex + 1} / {count}
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                aria-label="Close modal"
-                className="p-2.5 rounded-xl bg-background/80 border border-border text-ink hover:text-accent-green hover:border-accent-green/80 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Main Center Uncropped Image Container */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 flex-1 w-full flex items-center justify-center p-2 my-auto min-h-0"
-              onClick={() => setIsModalOpen(false)}
-            >
-              <img
-                key={activeItem.src}
-                src={activeItem.src}
-                alt={activeItem.alt || "Gallery Photo"}
-                onClick={(e) => e.stopPropagation()}
-                className="max-h-[88vh] max-w-[96vw] w-auto h-auto object-contain rounded-xl shadow-[0_0_90px_rgba(0,0,0,0.95)]"
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
