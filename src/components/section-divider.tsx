@@ -11,8 +11,8 @@ interface SectionDividerProps {
   count: string
   align?: "left" | "right"
   size?: "default" | "large"
+  /** Illustration shown beside the heading (stacks beneath it on mobile). */
   decoration?: ReactNode
-  belowDecoration?: ReactNode
 }
 
 export function SectionDivider({
@@ -24,16 +24,15 @@ export function SectionDivider({
   align = "left",
   size = "default",
   decoration,
-  belowDecoration,
 }: SectionDividerProps) {
   return (
     <section
       id={id}
       className={`overflow-x-clip border-t border-line ${
-        size === "large" ? "py-32 md:py-52" : "py-28 md:py-40"
+        size === "large" ? "py-24 md:py-36" : "py-20 md:py-28"
       } ${align === "right" ? "md:text-right" : ""}`}
     >
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-10 px-6 md:px-10">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-6 md:px-10">
         {kicker && (
           <motion.span
             initial={{ opacity: 0 }}
@@ -48,7 +47,11 @@ export function SectionDivider({
           </motion.span>
         )}
 
-        <div className={`flex items-end gap-8 ${align === "right" ? "md:self-end md:flex-row-reverse" : "self-start"}`}>
+        <div
+          className={`flex flex-col items-start gap-6 md:flex-row md:items-end md:gap-12 ${
+            align === "right" ? "md:self-end md:flex-row-reverse" : "self-start"
+          }`}
+        >
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -60,13 +63,13 @@ export function SectionDivider({
             const maxLen = Math.max(...lines.map((l) => l.length), 0)
             let uniformFontSizeClass = ""
             if (maxLen > 14) {
-              uniformFontSizeClass = "text-[9.5vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7vw]"
+              uniformFontSizeClass = "text-[8vw] sm:text-[8vw] md:text-[6.6vw] lg:text-[5.6vw]"
             } else if (maxLen > 8) {
-              uniformFontSizeClass = "text-[11.5vw] sm:text-[12.5vw] md:text-[10vw] lg:text-[9vw]"
+              uniformFontSizeClass = "text-[10vw] sm:text-[10.5vw] md:text-[8.4vw] lg:text-[7.4vw]"
             } else if (size === "large") {
-              uniformFontSizeClass = "text-[15vw] sm:text-[16vw] md:text-[13vw]"
+              uniformFontSizeClass = "text-[12.5vw] sm:text-[13vw] md:text-[10.6vw]"
             } else {
-              uniformFontSizeClass = "text-[12vw] sm:text-[13vw] md:text-[10.5vw]"
+              uniformFontSizeClass = "text-[10.5vw] sm:text-[11vw] md:text-[9vw]"
             }
 
             return lines.map((line) => (
@@ -79,18 +82,8 @@ export function SectionDivider({
             ))
           })()}
           </motion.h2>
-          {decoration && (
-            <div className="hidden md:block pb-2">
-              {decoration}
-            </div>
-          )}
+          {decoration && <div className="shrink-0 md:pb-3">{decoration}</div>}
         </div>
-
-        {belowDecoration && (
-          <div className={`mt-4 flex ${align === "right" ? "justify-end" : "justify-start"}`}>
-            {belowDecoration}
-          </div>
-        )}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

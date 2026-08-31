@@ -30,6 +30,25 @@ const securityHeaders = [
   },
 ]
 
+/**
+ * The inauguration route (/launch) needs the microphone for the spoken
+ * approval step. `microphone=()` disables it for every origin INCLUDING our
+ * own, and a Permissions-Policy denial cannot be overridden by the user
+ * granting permission — the browser refuses before prompting.
+ *
+ * `(self)` re-enables it for our own origin only; third parties and embedded
+ * contexts stay blocked exactly as before. Every other route keeps the strict
+ * `microphone=()` policy untouched.
+ */
+const launchHeaders = securityHeaders.map((header) =>
+  header.key === 'Permissions-Policy'
+    ? {
+        ...header,
+        value: 'camera=(), microphone=(self), geolocation=(), browsing-topics=()',
+      }
+    : header
+)
+
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
@@ -49,8 +68,14 @@ const nextConfig = {
   // Apply enterprise security headers across all routes
   async headers() {
     return [
+      // Most specific first: /launch relaxes ONLY the microphone directive.
       {
-        source: '/:path*',
+        source: '/launch',
+        headers: launchHeaders,
+      },
+      // Everything else keeps the strict policy.
+      {
+        source: '/:path((?!launch$).*)',
         headers: securityHeaders,
       },
     ]

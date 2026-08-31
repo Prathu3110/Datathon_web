@@ -50,7 +50,7 @@ export default function Page() {
             </>
           }
           count={`${pad2(bdaChallenges.length)} Challenges`}
-          belowDecoration={
+          decoration={
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.85 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -60,7 +60,7 @@ export default function Page() {
               style={{ y: 0 }}
               className="text-[#00e5ff]"
             >
-              <HeroBdaCloudIllustration className="h-32 w-32 md:h-52 md:w-52" />
+              <HeroBdaCloudIllustration className="h-28 w-28 md:h-40 md:w-40" />
             </motion.div>
           }
         />
@@ -94,7 +94,7 @@ export default function Page() {
             </>
           }
           count={`${pad2(roboticsChallenges.length)} Challenges`}
-          belowDecoration={
+          decoration={
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.85 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -104,7 +104,7 @@ export default function Page() {
               style={{ y: 0 }}
               className="text-accent-green"
             >
-              <HeroRobotIllustration className="h-32 w-32 md:h-52 md:w-52" />
+              <HeroRobotIllustration className="h-28 w-28 md:h-40 md:w-40" />
             </motion.div>
           }
         />
