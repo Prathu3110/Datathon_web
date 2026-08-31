@@ -14,6 +14,11 @@ export interface Challenge {
   tags: string[]
   problem: string
   lookingFor: string[]
+  sdg?: {
+    number: number
+    title: string
+    image: string
+  }
 }
 
 export const challenges: Challenge[] = [
@@ -25,6 +30,11 @@ export const challenges: Challenge[] = [
     track: "BDA & CC",
     accent: "red",
     illustration: "release-readiness",
+    sdg: {
+      number: 9,
+      title: "Industry, Innovation & Infrastructure",
+      image: "/SDG_9.jpg",
+    },
     summary:
       "Deciding whether a build is truly ready to ship means weighing test coverage, open defects, and code churn — usually done by gut feel instead of data.",
     tags: ["DevOps", "Quality Metrics", "CI/CD"],
@@ -45,6 +55,11 @@ export const challenges: Challenge[] = [
     track: "BDA & CC",
     accent: "green",
     illustration: "sustainable-cloud",
+    sdg: {
+      number: 13,
+      title: "Climate Action",
+      image: "/SDG_13.webp",
+    },
     summary:
       "Cloud infrastructure is often provisioned for peak demand and left running — a huge, invisible source of wasted energy and unnecessary emissions.",
     tags: ["Cloud", "Sustainability", "FinOps"],
@@ -65,6 +80,11 @@ export const challenges: Challenge[] = [
     track: "BDA & CC",
     accent: "blue",
     illustration: "supply-chain-risk",
+    sdg: {
+      number: 12,
+      title: "Responsible Consumption & Production",
+      image: "/SDG_12.webp",
+    },
     summary:
       "Disruptions rarely announce themselves. Weather, geopolitics, and vendor instability quietly build up risk long before a shipment actually fails.",
     tags: ["Logistics", "Predictive Analytics", "Risk Modeling"],
@@ -85,6 +105,11 @@ export const challenges: Challenge[] = [
     track: "BDA & CC",
     accent: "yellow",
     illustration: "feedback-intelligence",
+    sdg: {
+      number: 9,
+      title: "Industry, Innovation & Infrastructure",
+      image: "/SDG_9.jpg",
+    },
     summary:
       "Reviews, ratings, and support tickets are full of signal — but reading all of it, tagged and prioritized, is more than any product team can keep up with.",
     tags: ["NLP", "Sentiment Analysis", "Product Analytics"],
@@ -105,6 +130,11 @@ export const challenges: Challenge[] = [
     track: "Robotics",
     accent: "green",
     illustration: "pesticide-spraying",
+    sdg: {
+      number: 2,
+      title: "Zero Hunger",
+      image: "/SDG_2.webp",
+    },
     summary:
       "Blanket spraying wastes chemicals and harms healthy crops. A robot that sees which plants are actually affected can treat only what needs treating.",
     tags: ["Computer Vision", "Agri-Robotics", "Precision Spraying"],
@@ -125,6 +155,11 @@ export const challenges: Challenge[] = [
     track: "Robotics",
     accent: "blue",
     illustration: "pipe-inspection",
+    sdg: {
+      number: 9,
+      title: "Industry, Innovation & Infrastructure",
+      image: "/SDG_9.jpg",
+    },
     summary:
       "Pipeline failures are expensive and dangerous to find manually. An autonomous inspector can travel the line and flag exactly where damage is forming.",
     tags: ["Autonomous Navigation", "Defect Detection", "Infrastructure"],
@@ -145,6 +180,11 @@ export const challenges: Challenge[] = [
     track: "Robotics",
     accent: "red",
     illustration: "object-retrieval",
+    sdg: {
+      number: 10,
+      title: "Reduced Inequalities",
+      image: "/SDG_10.webp",
+    },
     summary:
       "Individuals with limited mobility often struggle to retrieve objects that fall to the floor, creating dependency on others for the simplest everyday tasks.",
     tags: ["Assistive Robotics", "Manipulation", "Human-Robot Interaction"],

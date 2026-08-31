@@ -118,24 +118,58 @@ export function ChallengeDetail({ challengeId, onClose }: ChallengeDetailProps) 
                 </ul>
               </div>
 
-              <motion.div
-                layoutId={`challenge-illustration-${challenge.id}`}
-                onMouseEnter={() => setIllustrationHovered(true)}
-                onMouseLeave={() => setIllustrationHovered(false)}
-                data-cursor="expand"
-                className={`flex items-start justify-center ${accentColorMap[challenge.accent].text}`}
-                aria-hidden
-              >
-                {(() => {
-                  const Illustration = illustrationMap[challenge.illustration]
-                  return Illustration ? (
-                    <Illustration
-                      className="h-44 w-44 md:h-56 md:w-56"
-                      animate={illustrationHovered ? "hover" : "rest"}
-                    />
-                  ) : null
-                })()}
-              </motion.div>
+              <div className="flex flex-col items-center gap-10">
+                <motion.div
+                  layoutId={`challenge-illustration-${challenge.id}`}
+                  onMouseEnter={() => setIllustrationHovered(true)}
+                  onMouseLeave={() => setIllustrationHovered(false)}
+                  data-cursor="expand"
+                  className={`flex items-start justify-center ${accentColorMap[challenge.accent].text}`}
+                  aria-hidden
+                >
+                  {(() => {
+                    const Illustration = illustrationMap[challenge.illustration]
+                    return Illustration ? (
+                      <Illustration
+                        className="h-44 w-44 md:h-52 md:w-52"
+                        animate={illustrationHovered ? "hover" : "rest"}
+                      />
+                    ) : null
+                  })()}
+                </motion.div>
+
+                {challenge.sdg && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="w-full max-w-[280px] rounded-2xl border border-border/80 bg-card/60 p-4 backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.36)]"
+                  >
+                    <div className="flex items-center justify-between gap-2 border-b border-border/60 pb-2 mb-3">
+                      <span className="text-[10px] font-mono font-bold tracking-[0.16em] uppercase text-accent-green">
+                        Aligned UN SDG
+                      </span>
+                      <span className="text-[10px] font-mono font-bold text-ink-muted">
+                        Goal {pad2(challenge.sdg.number)}
+                      </span>
+                    </div>
+
+                    <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 shadow-lg group">
+                      <img
+                        src={challenge.sdg.image}
+                        alt={`UN Sustainable Development Goal ${challenge.sdg.number}: ${challenge.sdg.title}`}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+
+                    <div className="mt-3 text-center">
+                      <div className="font-display text-xs font-bold uppercase tracking-wide text-ink">
+                        {challenge.sdg.title}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
             </div>
 
             <button

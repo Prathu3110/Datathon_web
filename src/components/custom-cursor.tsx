@@ -58,8 +58,14 @@ export function CustomCursor() {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[200] mix-blend-difference"
-      style={{ x: springX, y: springY, opacity: visible ? 1 : 0, transition: "opacity 0.2s" }}
+      className="pointer-events-none fixed left-0 top-0 z-[200]"
+      style={{
+        x: springX,
+        y: springY,
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.2s",
+        willChange: "transform",
+      }}
     >
       <motion.div
         animate={{
@@ -68,14 +74,20 @@ export function CustomCursor() {
           x: mode === "view" ? -28 : mode === "expand" ? -20 : -5,
           y: mode === "view" ? -28 : mode === "expand" ? -20 : -5,
         }}
-        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-        className="flex items-center justify-center rounded-full border border-[#f4f1ea] bg-[#f4f1ea]"
+        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        className={`flex items-center justify-center rounded-full transition-colors ${
+          mode === "view"
+            ? "border border-accent-green bg-accent-green text-[#04080a] shadow-[0_0_15px_rgba(0,255,136,0.5)]"
+            : mode === "expand"
+            ? "border border-accent-green/60 bg-accent-green/20 backdrop-blur-xs"
+            : "bg-accent-green shadow-[0_0_8px_rgba(0,255,136,0.8)]"
+        }`}
       >
         {mode === "view" && (
           <motion.span
             initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-[9px] font-bold uppercase tracking-[0.1em] text-background"
+            className="text-[9px] font-black uppercase tracking-[0.1em]"
           >
             View ↗
           </motion.span>

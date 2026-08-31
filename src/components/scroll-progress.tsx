@@ -19,26 +19,28 @@ export function ScrollProgress() {
     if (sections.length === 0) return
 
     const compute = () => {
-      const line = window.innerHeight * 0.45
+      const scrollY = window.scrollY
+      const viewportMid = scrollY + window.innerHeight * 0.45
       const first = sections[0]
       const last = sections[sections.length - 1]
-      const firstTop = first.getBoundingClientRect().top
-      const lastBottom = last.getBoundingClientRect().bottom
+      const firstTop = first.offsetTop
+      const lastBottom = last.offsetTop + last.offsetHeight
 
-      const withinRange = firstTop <= line && lastBottom >= 0
+      const withinRange = scrollY + window.innerHeight >= firstTop && scrollY <= lastBottom
       setActive(withinRange)
 
       if (withinRange) {
         let closestIndex = 0
         let closestDistance = Number.POSITIVE_INFINITY
-        sections.forEach((el, i) => {
-          const rect = el.getBoundingClientRect()
-          const distance = Math.abs(rect.top - line)
-          if (rect.top <= line && distance < closestDistance) {
-            closestDistance = distance
+        for (let i = 0; i < sections.length; i++) {
+          const el = sections[i]
+          const top = el.offsetTop
+          const dist = Math.abs(top - viewportMid)
+          if (top <= viewportMid && dist < closestDistance) {
+            closestDistance = dist
             closestIndex = i
           }
-        })
+        }
         setCurrent(closestIndex + 1)
       }
     }

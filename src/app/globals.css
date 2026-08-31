@@ -111,60 +111,26 @@
     color: transparent;
     animation: chrome-shimmer 14s linear infinite;
     cursor: pointer;
-    transition: filter 0.35s ease;
+    transition: filter 0.3s ease;
     display: block;
     position: relative;
     width: fit-content;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
-    will-change: background-position;
-    contain: layout style paint;
+    will-change: background-position, filter;
   }
 
-  /* Glyph-shaped glow with hardware acceleration (culled when inactive to save GPU) */
-  .chrome-text::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    -webkit-text-fill-color: var(--ink);
-    color: var(--ink);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-    contain: strict;
-  }
-
-  /* Hover lifts the sheen and blooms the glow */
+  /* Hover lifts the sheen and blooms the glow cleanly without text duplication */
   .chrome-text:hover {
-    filter: brightness(1.18);
+    filter: brightness(1.25) drop-shadow(0 0 24px rgba(228, 255, 244, 0.4));
     animation-duration: 9s;
   }
 
-  .chrome-text:hover::before {
-    opacity: 0.55;
-    visibility: visible;
-    filter: blur(16px);
-  }
-
-  /* Click: snap bright in 0.18s, then decay back out over the base 0.7s ease. */
+  /* Click: snap bright in 0.18s, then decay back out */
   .chrome-flash {
-    filter: brightness(2.1) !important;
+    filter: brightness(2.2) drop-shadow(0 0 35px rgba(0, 255, 136, 0.85)) !important;
     transition: filter 0.18s ease-out !important;
     animation-duration: 3s !important;
-  }
-
-  .chrome-flash::before {
-    opacity: 0.9 !important;
-    visibility: visible !important;
-    filter: blur(24px) !important;
-    transition:
-      opacity 0.18s ease-out,
-      filter 0.18s ease-out !important;
   }
 
   @keyframes chrome-shimmer {
@@ -182,17 +148,20 @@
     background:
       radial-gradient(
         45% 55% at 24% 38%,
-        color-mix(in srgb, var(--accent-green) 22%, transparent) 0%,
-        transparent 65%
+        rgba(0, 255, 136, 0.15) 0%,
+        rgba(0, 255, 136, 0.08) 30%,
+        rgba(0, 255, 136, 0.02) 55%,
+        transparent 70%
       ),
       radial-gradient(
         40% 50% at 74% 62%,
-        color-mix(in srgb, var(--accent-blue) 18%, transparent) 0%,
-        transparent 68%
+        rgba(0, 229, 255, 0.12) 0%,
+        rgba(0, 229, 255, 0.06) 35%,
+        rgba(0, 229, 255, 0.01) 60%,
+        transparent 75%
       );
-    filter: blur(32px);
     transform: translate3d(0, 0, 0);
-    will-change: transform;
+    will-change: transform, opacity;
     animation: aura-drift 22s ease-in-out infinite;
     contain: strict;
   }
@@ -201,11 +170,11 @@
     0%,
     100% {
       transform: translate3d(-1.5%, 0, 0) scale(1);
-      opacity: 0.42;
+      opacity: 0.5;
     }
     50% {
       transform: translate3d(1.5%, -2%, 0) scale(1.05);
-      opacity: 0.62;
+      opacity: 0.75;
     }
   }
 }

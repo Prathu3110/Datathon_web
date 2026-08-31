@@ -68,7 +68,11 @@ export function AboutSection() {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 h-px w-full bg-line"
           aria-hidden
-        />
+        />es , finish the gallery
+        10:26 PM
+        I have added and linked all 15 photos (IMG_1.jpeg through IMG_15.jpeg) into the Gallery!
+        
+        Summary of what was don
 
         {/* ── Two-column layout: intro + meta ── */}
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-[2fr_1fr] md:gap-20 lg:gap-32">

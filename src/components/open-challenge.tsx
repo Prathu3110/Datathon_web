@@ -1,10 +1,13 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { openChallenges } from "@/lib/challenges"
+import { BrainIllustration } from "./illustrations"
 
 export function OpenChallenge() {
   const open = openChallenges[0]
+  const [hovered, setHovered] = useState(false)
 
   return (
     <section id={`challenge-${open.number}`} className="border-t border-line py-24 md:py-32">
@@ -40,6 +43,24 @@ export function OpenChallenge() {
           >
             Open Challenge
           </motion.h2>
+
+          {/* Brain icon — unique visual identity for the open track */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, delay: 0.14 }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            data-cursor="expand"
+            className="text-accent-yellow"
+            aria-hidden
+          >
+            <BrainIllustration
+              className="h-40 w-40 md:h-56 md:w-56"
+              animate={hovered ? "hover" : "rest"}
+            />
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}

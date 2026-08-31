@@ -34,8 +34,8 @@ export function Nav() {
         <div className="flex min-w-0 items-center gap-3 md:gap-4">
           <a href="#top" className="flex items-center gap-3 group">
             <img
-              src="/datatrix-logo.jpeg"
-              alt="DATATRIX Logo"
+              src="/neon-logo.png"
+              alt="NEON Logo"
               className="h-8 md:h-10 w-auto object-contain rounded-lg border border-border/60 p-0.5 bg-card/60 group-hover:border-accent-green/50 transition-colors"
             />
             <span className="relative shrink-0 font-display text-[13px] md:text-[14px] font-bold uppercase tracking-[0.14em] text-ink">
@@ -44,7 +44,7 @@ export function Nav() {
                 className="pointer-events-none absolute left-0 top-full mt-0.5 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.18em] text-accent-green opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 aria-hidden
               >
-                DATATRIX × SRM
+                NEON × SRM
               </span>
             </span>
           </a>
@@ -66,9 +66,32 @@ export function Nav() {
           ))}
         </nav>
 
-        {/* College logo — top-right, highly visible */}
-        <div className="ml-auto flex shrink-0 items-center">
-          <CollegeLogo className="h-12 sm:h-14 md:h-16" />
+        {/* Partner Logos & College Logo Section — top right */}
+        <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-5 md:gap-6">
+          {/* "In Association with" Partner Logos */}
+          <div className="flex flex-col items-center sm:items-end justify-center">
+            <span className="text-[7.5px] sm:text-[8.5px] md:text-[9px] font-bold uppercase tracking-[0.16em] text-accent-green mb-1 select-none">
+              In Association with
+            </span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <img
+                src="/ieee-logo.png"
+                alt="IEEE"
+                className="h-5 sm:h-6 md:h-7 w-auto object-contain transition-transform duration-300 hover:scale-105"
+              />
+              <span className="h-3.5 w-[1px] bg-line" aria-hidden />
+              <img
+                src="/ras-logo.png"
+                alt="IEEE Robotics & Automation Society"
+                className="h-5 sm:h-6 md:h-7 w-auto object-contain transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          </div>
+
+          <span className="hidden sm:block h-7 w-[1px] bg-line" aria-hidden />
+
+          {/* College logo — rightmost */}
+          <CollegeLogo className="h-10 sm:h-12 md:h-14" />
         </div>
 
         <button

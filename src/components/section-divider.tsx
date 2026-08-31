@@ -11,6 +11,8 @@ interface SectionDividerProps {
   count: string
   align?: "left" | "right"
   size?: "default" | "large"
+  decoration?: ReactNode
+  belowDecoration?: ReactNode
 }
 
 export function SectionDivider({
@@ -21,6 +23,8 @@ export function SectionDivider({
   count,
   align = "left",
   size = "default",
+  decoration,
+  belowDecoration,
 }: SectionDividerProps) {
   return (
     <section
@@ -44,7 +48,7 @@ export function SectionDivider({
           </motion.span>
         )}
 
-        <div className={align === "right" ? "md:self-end" : "self-start"}>
+        <div className={`flex items-end gap-8 ${align === "right" ? "md:self-end md:flex-row-reverse" : "self-start"}`}>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -52,20 +56,41 @@ export function SectionDivider({
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="font-display overflow-hidden leading-[0.85] tracking-tight text-ink"
           >
-            {lines.map((line) => (
+          {(() => {
+            const maxLen = Math.max(...lines.map((l) => l.length), 0)
+            let uniformFontSizeClass = ""
+            if (maxLen > 14) {
+              uniformFontSizeClass = "text-[9.5vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7vw]"
+            } else if (maxLen > 8) {
+              uniformFontSizeClass = "text-[11.5vw] sm:text-[12.5vw] md:text-[10vw] lg:text-[9vw]"
+            } else if (size === "large") {
+              uniformFontSizeClass = "text-[15vw] sm:text-[16vw] md:text-[13vw]"
+            } else {
+              uniformFontSizeClass = "text-[12vw] sm:text-[13vw] md:text-[10.5vw]"
+            }
+
+            return lines.map((line) => (
               <span
                 key={line}
-                className={`block font-black ${
-                  size === "large"
-                    ? "text-[15vw] sm:text-[16vw] md:text-[13vw]"
-                    : "text-[11vw] sm:text-[13vw] md:text-[10vw]"
-                }`}
+                className={`block font-black ${uniformFontSizeClass}`}
               >
                 {line}
               </span>
-            ))}
+            ))
+          })()}
           </motion.h2>
+          {decoration && (
+            <div className="hidden md:block pb-2">
+              {decoration}
+            </div>
+          )}
         </div>
+
+        {belowDecoration && (
+          <div className={`mt-4 flex ${align === "right" ? "justify-end" : "justify-start"}`}>
+            {belowDecoration}
+          </div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

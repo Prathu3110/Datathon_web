@@ -456,6 +456,68 @@ export function HeroRobotIllustration(props: IllustrationProps) {
   )
 }
 
+/** Hero BDA & Cloud: Futuristic cloud network with database server stack and analytics flow */
+export function HeroBdaCloudIllustration(props: IllustrationProps) {
+  const { animate = "rest", ...rest } = props
+  return (
+    <svg {...base} {...rest}>
+      {/* Cloud perimeter */}
+      <path
+        d="M62 90 C50 90 40 100 40 112 C40 124 50 134 62 134 L142 134 C156 134 168 122 168 108 C168 95 158 84 146 83 C144 65 128 50 108 50 C92 50 78 60 72 74 C69 73 65 72 62 72 C50 72 40 82 40 94"
+        strokeWidth="2.5"
+      />
+      {/* Database server rack in cloud */}
+      <rect x="74" y="78" width="52" height="15" rx="3" />
+      <circle cx="84" cy="85.5" r="2.5" fill="currentColor" />
+      <circle cx="92" cy="85.5" r="2.5" fill="currentColor" />
+      <line x1="102" y1="85.5" x2="118" y2="85.5" />
+
+      <rect x="74" y="99" width="52" height="15" rx="3" />
+      <circle cx="84" cy="106.5" r="2.5" fill="currentColor" />
+      <circle cx="92" cy="106.5" r="2.5" fill="currentColor" />
+      <line x1="102" y1="106.5" x2="118" y2="106.5" />
+
+      {/* Analytics chart bars descending from cloud */}
+      <motion.g
+        initial={false}
+        animate={animate}
+        variants={{ rest: { y: 0 }, hover: { y: -4 } }}
+        transition={springy}
+      >
+        <line x1="68" y1="142" x2="68" y2="170" strokeDasharray="3 3" />
+        <rect x="60" y="154" width="16" height="24" rx="3" />
+        <circle cx="68" cy="142" r="3" fill="currentColor" />
+      </motion.g>
+
+      <motion.g
+        initial={false}
+        animate={animate}
+        variants={{ rest: { y: 0 }, hover: { y: -8 } }}
+        transition={{ ...springy, delay: 0.05 }}
+      >
+        <line x1="100" y1="138" x2="100" y2="182" strokeDasharray="3 3" />
+        <rect x="92" y="146" width="16" height="32" rx="3" />
+        <circle cx="100" cy="138" r="3" fill="currentColor" />
+      </motion.g>
+
+      <motion.g
+        initial={false}
+        animate={animate}
+        variants={{ rest: { y: 0 }, hover: { y: -6 } }}
+        transition={{ ...springy, delay: 0.1 }}
+      >
+        <line x1="132" y1="142" x2="132" y2="170" strokeDasharray="3 3" />
+        <rect x="124" y="150" width="16" height="28" rx="3" />
+        <circle cx="132" cy="142" r="3" fill="currentColor" />
+      </motion.g>
+
+      {/* Cloud data signal arcs */}
+      <path d="M92 38 C97 33 103 33 108 38" strokeLinecap="round" opacity="0.8" />
+      <path d="M84 28 C94 20 106 20 116 28" strokeLinecap="round" opacity="0.5" />
+    </svg>
+  )
+}
+
 /** Open Challenge: playful blank canvas / plus illustration */
 export function OpenCanvasIllustration(props: IllustrationProps) {
   const { animate: _animate, ...rest } = props
@@ -464,6 +526,40 @@ export function OpenCanvasIllustration(props: IllustrationProps) {
       <rect x="40" y="40" width="120" height="120" rx="6" strokeDasharray="4 8" />
       <line x1="100" y1="76" x2="100" y2="124" />
       <line x1="76" y1="100" x2="124" y2="100" />
+    </svg>
+  )
+}
+
+/** Open Challenge Brain: glowing neural brain with spark — animated pulse on hover */
+export function BrainIllustration(props: IllustrationProps) {
+  const isHover = props.animate === "hover"
+  return (
+    <svg {...base} {...props}>
+      {/* Left hemisphere */}
+      <path d="M100 56 C72 56 50 72 50 92 C50 104 56 114 66 120 C62 126 62 134 68 138 C68 148 76 154 86 152 C90 158 96 160 100 160" />
+      {/* Right hemisphere */}
+      <path d="M100 56 C128 56 150 72 150 92 C150 104 144 114 134 120 C138 126 138 134 132 138 C132 148 124 154 114 152 C110 158 104 160 100 160" />
+      {/* Centre groove */}
+      <line x1="100" y1="56" x2="100" y2="160" strokeDasharray="4 5" strokeOpacity="0.4" />
+      {/* Neural nodes */}
+      <circle cx="72" cy="92" r="5" fill="currentColor" opacity={isHover ? 1 : 0.7} />
+      <circle cx="84" cy="112" r="4" fill="currentColor" opacity={isHover ? 1 : 0.6} />
+      <circle cx="128" cy="92" r="5" fill="currentColor" opacity={isHover ? 1 : 0.7} />
+      <circle cx="116" cy="112" r="4" fill="currentColor" opacity={isHover ? 1 : 0.6} />
+      <circle cx="100" cy="82" r="4" fill="currentColor" opacity={isHover ? 1 : 0.5} />
+      {/* Synaptic connectors */}
+      <line x1="72" y1="92" x2="84" y2="112" strokeOpacity="0.5" />
+      <line x1="84" y1="112" x2="100" y2="82" strokeOpacity="0.4" />
+      <line x1="100" y1="82" x2="116" y2="112" strokeOpacity="0.4" />
+      <line x1="116" y1="112" x2="128" y2="92" strokeOpacity="0.5" />
+      {/* Spark bolt on hover */}
+      <path
+        d="M100 44 L94 60 L100 57 L94 76"
+        strokeWidth="2.5"
+        opacity={isHover ? 1 : 0.35}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -480,4 +576,5 @@ export const illustrationMap: Record<string, (props: IllustrationProps) => React
   "pesticide-spraying": PesticideSprayingIllustration,
   "pipe-inspection": PipeInspectionIllustration,
   "object-retrieval": ObjectRetrievalIllustration,
+  "open-canvas": BrainIllustration,
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MotionConfig } from "framer-motion"
+import { motion, MotionConfig } from "framer-motion"
 import { Nav } from "@/components/nav"
 import { Hero } from "@/components/hero"
 import { ChallengeIndex } from "@/components/challenge-index"
@@ -18,7 +18,9 @@ import { SiteFooter } from "@/components/site-footer"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { CustomCursor } from "@/components/custom-cursor"
 import { BackgroundWaves } from "@/components/background-waves"
+import { RulesSection } from "@/components/rules-section"
 import { bdaChallenges, roboticsChallenges, pad2 } from "@/lib/challenges"
+import { HeroRobotIllustration, HeroBdaCloudIllustration } from "@/components/illustrations"
 
 export default function Page() {
   const [activeChallenge, setActiveChallenge] = useState<string | null>(null)
@@ -34,15 +36,33 @@ export default function Page() {
         <SectionDivider
           id="bda-cc"
           kicker="Part One"
-          lines={["BDA", "&", "CC"]}
+          size="large"
+          lines={["BIG DATA", "ANALYTICS &", "CLOUD COMPUTING"]}
           supporting={
             <>
-              Big Data Analytics
+              Predictive Analytics
               <br />
-              &amp; Cloud Computing
+              Cloud Infrastructure
+              <br />
+              Risk Intelligence
+              <br />
+              Scalable Systems
             </>
           }
           count={`${pad2(bdaChallenges.length)} Challenges`}
+          belowDecoration={
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.85 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ y: [0, -8, 0] }}
+              style={{ y: 0 }}
+              className="text-[#00e5ff]"
+            >
+              <HeroBdaCloudIllustration className="h-32 w-32 md:h-52 md:w-52" />
+            </motion.div>
+          }
         />
 
         {bdaChallenges.map((challenge, index) => (
@@ -74,6 +94,19 @@ export default function Page() {
             </>
           }
           count={`${pad2(roboticsChallenges.length)} Challenges`}
+          belowDecoration={
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.85 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ y: [0, -8, 0] }}
+              style={{ y: 0 }}
+              className="text-accent-green"
+            >
+              <HeroRobotIllustration className="h-32 w-32 md:h-52 md:w-52" />
+            </motion.div>
+          }
         />
 
         {roboticsChallenges.map((challenge, index) => (
@@ -87,6 +120,7 @@ export default function Page() {
 
         <OpenChallenge />
         <AboutSection />
+        <RulesSection />
         <Gallery />
         <LogoStrip />
         <Register />
