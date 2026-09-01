@@ -228,15 +228,33 @@ export function LaunchSequence() {
                 Inter-Department Hackathon
               </motion.span>
 
-              <motion.span
-                data-text="DATATHON 2K26"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.12, ease: EASE }}
-                className="chrome-text font-display text-[9vw] font-black leading-[0.9] tracking-tight md:text-[6.4vw]"
+              {/* Neon mark, breathing gently while the screen holds. */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: [1, 1.045, 1] }}
+                transition={{
+                  opacity: { duration: 1.2, delay: 0.12, ease: EASE },
+                  scale: {
+                    duration: 4.2,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                    delay: 0.6,
+                  },
+                }}
+                className="flex items-center justify-center"
               >
-                DATATHON 2K26
-              </motion.span>
+                {/* The file carries ~22% dead black padding each side and has no
+                    alpha channel, so: size generously (the cube is only 55% of
+                    the file's width), blend the black away with `screen`, and use
+                    NO drop-shadow — without alpha it would glow the image's
+                    rectangle rather than the mark. The bloom behind supplies the
+                    glow instead. */}
+                <img
+                  src="/neon-logo.png"
+                  alt="Datathon 2K26"
+                  className="h-auto w-[clamp(260px,min(84vh,94vw),1150px)] select-none object-contain mix-blend-screen"
+                />
+              </motion.div>
 
               <motion.span
                 initial={{ scaleX: 0 }}

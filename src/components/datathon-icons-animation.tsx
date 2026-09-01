@@ -12,6 +12,7 @@ import {
   ObjectRetrievalIllustration,
   OpenCanvasIllustration,
 } from "./illustrations"
+import { useIconFlightSound } from "./use-icon-flight-sound"
 
 /* ────────────────────────────────────
    8 Letters → 8 Challenges
@@ -145,6 +146,10 @@ export function DatathonIconsAnimation({ ready = true }: { ready?: boolean }) {
     window.addEventListener("resize", measure, { passive: true })
     return () => { clearTimeout(t0); window.removeEventListener("resize", measure) }
   }, [ready, measure])
+
+  /* Sound only — observes `phase`, drives nothing. Plays through burst and
+     fly, silent once the ring starts spinning. */
+  useIconFlightSound(phase)
 
   if (phase === "idle" || letterPositions.length < 8) {
     return <div ref={overlayRef} className="absolute inset-0 pointer-events-none" />

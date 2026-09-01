@@ -75,7 +75,11 @@ export function SectionDivider({
             return lines.map((line) => (
               <span
                 key={line}
-                className={`block font-black ${uniformFontSizeClass}`}
+                className={`block font-black ${uniformFontSizeClass} ${
+                  // a line of one or two characters (e.g. a standalone "&")
+                  // reads as an orphan flush-left; centre it under the block
+                  line.trim().length <= 2 ? "text-center" : ""
+                }`}
               >
                 {line}
               </span>

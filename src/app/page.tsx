@@ -37,7 +37,7 @@ export default function Page() {
           id="bda-cc"
           kicker="Part One"
           size="large"
-          lines={["BIG DATA", "ANALYTICS &", "CLOUD COMPUTING"]}
+          lines={["BIG DATA ANALYTICS", "&", "CLOUD COMPUTING"]}
           supporting={
             <>
               Predictive Analytics
