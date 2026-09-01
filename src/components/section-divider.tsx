@@ -3,6 +3,13 @@
 import { motion } from "framer-motion"
 import type { ReactNode } from "react"
 
+/**
+ * Shared display scale for the track dividers, so PART ONE and PART TWO match
+ * regardless of how long their words are. Without this the length-based buckets
+ * below gave "ROBOTICS" (8 chars) a far larger size than "BIG DATA ANALYTICS".
+ */
+const TRACK_SCALE = "text-[8vw] sm:text-[8vw] md:text-[6.6vw] lg:text-[5.6vw]"
+
 interface SectionDividerProps {
   id?: string
   kicker?: string
@@ -61,13 +68,12 @@ export function SectionDivider({
           >
           {(() => {
             const maxLen = Math.max(...lines.map((l) => l.length), 0)
-            let uniformFontSizeClass = ""
-            if (maxLen > 14) {
-              uniformFontSizeClass = "text-[8vw] sm:text-[8vw] md:text-[6.6vw] lg:text-[5.6vw]"
+            let uniformFontSizeClass: string
+            if (size === "large" || maxLen > 14) {
+              // track dividers, and any long heading, share one size
+              uniformFontSizeClass = TRACK_SCALE
             } else if (maxLen > 8) {
               uniformFontSizeClass = "text-[10vw] sm:text-[10.5vw] md:text-[8.4vw] lg:text-[7.4vw]"
-            } else if (size === "large") {
-              uniformFontSizeClass = "text-[12.5vw] sm:text-[13vw] md:text-[10.6vw]"
             } else {
               uniformFontSizeClass = "text-[10.5vw] sm:text-[11vw] md:text-[9vw]"
             }
